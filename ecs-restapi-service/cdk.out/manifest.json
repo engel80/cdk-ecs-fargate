@@ -1,0 +1,179 @@
+{
+  "version": "19.0.0",
+  "artifacts": {
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    },
+    "ecs-service-restapi-local.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "ecs-service-restapi-local.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "ecs-service-restapi-local": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://681747700094/ap-northeast-2",
+      "properties": {
+        "templateFile": "ecs-service-restapi-local.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::681747700094:role/cdk-hnb659fds-deploy-role-681747700094-ap-northeast-2",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::681747700094:role/cdk-hnb659fds-cfn-exec-role-681747700094-ap-northeast-2",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-681747700094-ap-northeast-2/2188ce9e160cd3058a56cc805de5e1bd6dd9891e14ae500e73750c8b989ac1ea.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "ecs-service-restapi-local.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::681747700094:role/cdk-hnb659fds-lookup-role-681747700094-ap-northeast-2",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "ecs-service-restapi-local.assets"
+      ],
+      "metadata": {
+        "/ecs-service-restapi-local/ecs-security-group/from ecsservicerestapilocalalbsgrestapi12C6F938:0": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ecssecuritygroupfromecsservicerestapilocalalbsgrestapi12C6F93809C4BD96C"
+          }
+        ],
+        "/ecs-service-restapi-local/ecs-security-group/from ecsservicerestapilocalalbsgrestapi12C6F938:32768-65535": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ecssecuritygroupfromecsservicerestapilocalalbsgrestapi12C6F9383276865535BB1311BE"
+          }
+        ],
+        "/ecs-service-restapi-local/task-execution-role/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "taskexecutionrolePolicy68CA3FD9"
+          }
+        ],
+        "/ecs-service-restapi-local/task-role/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "taskrolePolicyFA6CED8E"
+          }
+        ],
+        "/ecs-service-restapi-local/task-definition/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "taskdefinitionBBCB03E6"
+          }
+        ],
+        "/ecs-service-restapi-local/ec2-service/Service": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ec2serviceServiceCAD2C483"
+          }
+        ],
+        "/ecs-service-restapi-local/ec2-service/TaskCount/Target/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ec2serviceTaskCountTargetC1D8A82F"
+          }
+        ],
+        "/ecs-service-restapi-local/ec2-service/TaskCount/Target/cpuscaling/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ec2serviceTaskCountTargetcpuscaling88567D68"
+          }
+        ],
+        "/ecs-service-restapi-local/loggroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "loggroup98B39ABC"
+          }
+        ],
+        "/ecs-service-restapi-local/albsg-restapi/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "albsgrestapiF15AB258"
+          }
+        ],
+        "/ecs-service-restapi-local/alb/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "alb8A8B13C2"
+          }
+        ],
+        "/ecs-service-restapi-local/alb/https-listener/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "albhttpslistener38FF2581"
+          }
+        ],
+        "/ecs-service-restapi-local/alb/https-listener/ec2-service-targetGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "albhttpslistenerec2servicetargetGroup679226C2"
+          }
+        ],
+        "/ecs-service-restapi-local/VPC": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPC"
+          }
+        ],
+        "/ecs-service-restapi-local/Cluster": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Cluster"
+          }
+        ],
+        "/ecs-service-restapi-local/Service": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Service"
+          }
+        ],
+        "/ecs-service-restapi-local/TaskDefinition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TaskDefinition"
+          }
+        ],
+        "/ecs-service-restapi-local/LogGroup": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogGroup"
+          }
+        ],
+        "/ecs-service-restapi-local/ALB": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ALB"
+          }
+        ],
+        "/ecs-service-restapi-local/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/ecs-service-restapi-local/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/ecs-service-restapi-local/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "ecs-service-restapi-local"
+    }
+  }
+}

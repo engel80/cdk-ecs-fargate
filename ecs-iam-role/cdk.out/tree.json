@@ -1,0 +1,275 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "constructs.Construct",
+          "version": "10.1.15"
+        }
+      },
+      "ecs-iam-role-local": {
+        "id": "ecs-iam-role-local",
+        "path": "ecs-iam-role-local",
+        "children": {
+          "task-execution-role": {
+            "id": "task-execution-role",
+            "path": "ecs-iam-role-local/task-execution-role",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "ecs-iam-role-local/task-execution-role/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                  "aws:cdk:cloudformation:props": {
+                    "assumeRolePolicyDocument": {
+                      "Statement": [
+                        {
+                          "Action": "sts:AssumeRole",
+                          "Effect": "Allow",
+                          "Principal": {
+                            "Service": "ecs-tasks.amazonaws.com"
+                          }
+                        }
+                      ],
+                      "Version": "2012-10-17"
+                    },
+                    "managedPolicyArns": [
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+                          ]
+                        ]
+                      }
+                    ],
+                    "roleName": "AmazonECSTaskExecutionRole"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                  "version": "2.25.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_iam.Role",
+              "version": "2.25.0"
+            }
+          },
+          "default-task-role": {
+            "id": "default-task-role",
+            "path": "ecs-iam-role-local/default-task-role",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "ecs-iam-role-local/default-task-role/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                  "aws:cdk:cloudformation:props": {
+                    "assumeRolePolicyDocument": {
+                      "Statement": [
+                        {
+                          "Action": "sts:AssumeRole",
+                          "Effect": "Allow",
+                          "Principal": {
+                            "Service": "ecs-tasks.amazonaws.com"
+                          }
+                        }
+                      ],
+                      "Version": "2012-10-17"
+                    },
+                    "managedPolicyArns": [
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":iam::aws:policy/AWSXrayWriteOnlyAccess"
+                          ]
+                        ]
+                      },
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":iam::aws:policy/AmazonSSMReadOnlyAccess"
+                          ]
+                        ]
+                      }
+                    ],
+                    "policies": [
+                      {
+                        "policyName": "ECSExec",
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": [
+                                "ssmmessages:CreateControlChannel",
+                                "ssmmessages:CreateDataChannel",
+                                "ssmmessages:OpenControlChannel",
+                                "ssmmessages:OpenDataChannel"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": "*"
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    ],
+                    "roleName": "ECSDefaultTaskRole"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                  "version": "2.25.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_iam.Role",
+              "version": "2.25.0"
+            }
+          },
+          "ssm-task-execution-role": {
+            "id": "ssm-task-execution-role",
+            "path": "ecs-iam-role-local/ssm-task-execution-role",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "ecs-iam-role-local/ssm-task-execution-role/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::SSM::Parameter",
+                  "aws:cdk:cloudformation:props": {
+                    "type": "String",
+                    "value": {
+                      "Fn::GetAtt": [
+                        "taskexecutionrole7BB27090",
+                        "Arn"
+                      ]
+                    },
+                    "name": "/cdk-ecs-ec2/task-execution-role-arn"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ssm.CfnParameter",
+                  "version": "2.25.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ssm.StringParameter",
+              "version": "2.25.0"
+            }
+          },
+          "ssm-default-task-role": {
+            "id": "ssm-default-task-role",
+            "path": "ecs-iam-role-local/ssm-default-task-role",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "ecs-iam-role-local/ssm-default-task-role/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::SSM::Parameter",
+                  "aws:cdk:cloudformation:props": {
+                    "type": "String",
+                    "value": {
+                      "Fn::GetAtt": [
+                        "defaulttaskrole40ECA4B5",
+                        "Arn"
+                      ]
+                    },
+                    "name": "/cdk-ecs-ec2/default-task-role-arn"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ssm.CfnParameter",
+                  "version": "2.25.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ssm.StringParameter",
+              "version": "2.25.0"
+            }
+          },
+          "SSMTaskExecRoleParam": {
+            "id": "SSMTaskExecRoleParam",
+            "path": "ecs-iam-role-local/SSMTaskExecRoleParam",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.25.0"
+            }
+          },
+          "SSMTaskExecRoleParamValue": {
+            "id": "SSMTaskExecRoleParamValue",
+            "path": "ecs-iam-role-local/SSMTaskExecRoleParamValue",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.25.0"
+            }
+          },
+          "SSMDefaultTaskRoleParam": {
+            "id": "SSMDefaultTaskRoleParam",
+            "path": "ecs-iam-role-local/SSMDefaultTaskRoleParam",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.25.0"
+            }
+          },
+          "SSMDefaultTaskRoleParamValue": {
+            "id": "SSMDefaultTaskRoleParamValue",
+            "path": "ecs-iam-role-local/SSMDefaultTaskRoleParamValue",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.25.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "ecs-iam-role-local/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "ecs-iam-role-local/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.25.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.1.15"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.25.0"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "aws-cdk-lib.App",
+      "version": "2.25.0"
+    }
+  }
+}

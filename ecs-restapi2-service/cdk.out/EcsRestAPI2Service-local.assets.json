@@ -1,0 +1,20 @@
+{
+  "version": "19.0.0",
+  "files": {
+    "f257b57935fc8decb4cad776230f384df91fa26dceff749938658ff66fbf440a": {
+      "source": {
+        "path": "EcsRestAPI2Service-local.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "681747700094-ap-northeast-2": {
+          "bucketName": "cdk-hnb659fds-assets-681747700094-ap-northeast-2",
+          "objectKey": "f257b57935fc8decb4cad776230f384df91fa26dceff749938658ff66fbf440a.json",
+          "region": "ap-northeast-2",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::681747700094:role/cdk-hnb659fds-file-publishing-role-681747700094-ap-northeast-2"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

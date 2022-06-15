@@ -1,0 +1,196 @@
+{
+  "version": "19.0.0",
+  "artifacts": {
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    },
+    "EcsRestAPI2Service-local.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "EcsRestAPI2Service-local.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "EcsRestAPI2Service-local": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://681747700094/ap-northeast-2",
+      "properties": {
+        "templateFile": "EcsRestAPI2Service-local.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::681747700094:role/cdk-hnb659fds-deploy-role-681747700094-ap-northeast-2",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::681747700094:role/cdk-hnb659fds-cfn-exec-role-681747700094-ap-northeast-2",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-681747700094-ap-northeast-2/f257b57935fc8decb4cad776230f384df91fa26dceff749938658ff66fbf440a.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "EcsRestAPI2Service-local.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::681747700094:role/cdk-hnb659fds-lookup-role-681747700094-ap-northeast-2",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "EcsRestAPI2Service-local.assets"
+      ],
+      "metadata": {
+        "/EcsRestAPI2Service-local/ecs-security-group/from EcsRestAPI2Servicelocalalbsgrestapi203326C35:0": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ecssecuritygroupfromEcsRestAPI2Servicelocalalbsgrestapi203326C3505D80767E"
+          }
+        ],
+        "/EcsRestAPI2Service-local/ecs-security-group/from EcsRestAPI2Servicelocalalbsgrestapi203326C35:32768-65535": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ecssecuritygroupfromEcsRestAPI2Servicelocalalbsgrestapi203326C35327686553546C63EAD"
+          }
+        ],
+        "/EcsRestAPI2Service-local/task-definition/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "taskdefinitionBBCB03E6"
+          }
+        ],
+        "/EcsRestAPI2Service-local/task-definition/container-restapi": [
+          {
+            "type": "aws:cdk:warning",
+            "data": "Proper policies need to be attached before pulling from ECR repository, or use 'fromEcrRepository'.",
+            "trace": [
+              "Annotations.addMessage (/Users/junhyeok/Documents/00.cdk/cdk-ecs-ec2/node_modules/aws-cdk-lib/core/lib/annotations.js:1:1213)",
+              "Annotations.addWarning (/Users/junhyeok/Documents/00.cdk/cdk-ecs-ec2/node_modules/aws-cdk-lib/core/lib/annotations.js:1:600)",
+              "RepositoryImage.bind (/Users/junhyeok/Documents/00.cdk/cdk-ecs-ec2/node_modules/aws-cdk-lib/aws-ecs/lib/images/repository.js:1:1130)",
+              "new ContainerDefinition (/Users/junhyeok/Documents/00.cdk/cdk-ecs-ec2/node_modules/aws-cdk-lib/aws-ecs/lib/container-definition.js:1:2960)",
+              "TaskDefinition.addContainer (/Users/junhyeok/Documents/00.cdk/cdk-ecs-ec2/node_modules/aws-cdk-lib/aws-ecs/lib/base/task-definition.js:1:9119)",
+              "new EcsRestAPIServiceStack (/Users/junhyeok/Documents/00.cdk/cdk-ecs-ec2/ecs-restapi2-service/lib/ecs-restapi-service-stack.ts:47:42)",
+              "Object.<anonymous> (/Users/junhyeok/Documents/00.cdk/cdk-ecs-ec2/ecs-restapi2-service/bin/index.ts:14:1)",
+              "Module._compile (node:internal/modules/cjs/loader:1099:14)",
+              "Module.m._compile (/Users/junhyeok/Documents/00.cdk/cdk-ecs-ec2/node_modules/ts-node/src/index.ts:1056:23)",
+              "Module._extensions..js (node:internal/modules/cjs/loader:1153:10)",
+              "Object.require.extensions.<computed> [as .ts] (/Users/junhyeok/Documents/00.cdk/cdk-ecs-ec2/node_modules/ts-node/src/index.ts:1059:12)",
+              "Module.load (node:internal/modules/cjs/loader:975:32)",
+              "Function.Module._load (node:internal/modules/cjs/loader:822:12)",
+              "Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:77:12)",
+              "main (/Users/junhyeok/Documents/00.cdk/cdk-ecs-ec2/node_modules/ts-node/src/bin.ts:198:14)",
+              "Object.<anonymous> (/Users/junhyeok/Documents/00.cdk/cdk-ecs-ec2/node_modules/ts-node/src/bin.ts:288:3)",
+              "Module._compile (node:internal/modules/cjs/loader:1099:14)",
+              "Object.Module._extensions..js (node:internal/modules/cjs/loader:1153:10)",
+              "Module.load (node:internal/modules/cjs/loader:975:32)",
+              "Function.Module._load (node:internal/modules/cjs/loader:822:12)",
+              "Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:77:12)",
+              "node:internal/main/run_main_module:17:47"
+            ]
+          }
+        ],
+        "/EcsRestAPI2Service-local/ec2-service/Service": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ec2serviceServiceCAD2C483"
+          }
+        ],
+        "/EcsRestAPI2Service-local/ec2-service/TaskCount/Target/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ec2serviceTaskCountTargetC1D8A82F"
+          }
+        ],
+        "/EcsRestAPI2Service-local/ec2-service/TaskCount/Target/CpuScaling/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ec2serviceTaskCountTargetCpuScaling4B0B3DE6"
+          }
+        ],
+        "/EcsRestAPI2Service-local/logGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "logGroup68A52FBE"
+          }
+        ],
+        "/EcsRestAPI2Service-local/albsg-restapi2/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "albsgrestapi2CDDC4C4C"
+          }
+        ],
+        "/EcsRestAPI2Service-local/alb/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "alb8A8B13C2"
+          }
+        ],
+        "/EcsRestAPI2Service-local/alb/https-listener/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "albhttpslistener38FF2581"
+          }
+        ],
+        "/EcsRestAPI2Service-local/alb/https-listener/ec2-service-targetGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "albhttpslistenerec2servicetargetGroup679226C2"
+          }
+        ],
+        "/EcsRestAPI2Service-local/VPC": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPC"
+          }
+        ],
+        "/EcsRestAPI2Service-local/Cluster": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Cluster"
+          }
+        ],
+        "/EcsRestAPI2Service-local/Service": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Service"
+          }
+        ],
+        "/EcsRestAPI2Service-local/TaskDefinition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TaskDefinition"
+          }
+        ],
+        "/EcsRestAPI2Service-local/LogGroup": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogGroup"
+          }
+        ],
+        "/EcsRestAPI2Service-local/ALB": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ALB"
+          }
+        ],
+        "/EcsRestAPI2Service-local/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/EcsRestAPI2Service-local/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/EcsRestAPI2Service-local/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "EcsRestAPI2Service-local"
+    }
+  }
+}

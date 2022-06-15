@@ -1,0 +1,355 @@
+{
+ "Resources": {
+  "ecssecuritygroupfromEcsRestAPI2Servicelocalalbsgrestapi203326C3505D80767E": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "IpProtocol": "tcp",
+    "Description": "Allows all from ALB",
+    "FromPort": 0,
+    "GroupId": "sg-0c76ac118daf75c2a",
+    "SourceSecurityGroupId": {
+     "Fn::GetAtt": [
+      "albsgrestapi2CDDC4C4C",
+      "GroupId"
+     ]
+    },
+    "ToPort": 0
+   },
+   "Metadata": {
+    "aws:cdk:path": "EcsRestAPI2Service-local/ecs-security-group/from EcsRestAPI2Servicelocalalbsgrestapi203326C35:0"
+   }
+  },
+  "ecssecuritygroupfromEcsRestAPI2Servicelocalalbsgrestapi203326C35327686553546C63EAD": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "IpProtocol": "tcp",
+    "Description": "Load balancer to target",
+    "FromPort": 32768,
+    "GroupId": "sg-0c76ac118daf75c2a",
+    "SourceSecurityGroupId": {
+     "Fn::GetAtt": [
+      "albsgrestapi2CDDC4C4C",
+      "GroupId"
+     ]
+    },
+    "ToPort": 65535
+   },
+   "Metadata": {
+    "aws:cdk:path": "EcsRestAPI2Service-local/ecs-security-group/from EcsRestAPI2Servicelocalalbsgrestapi203326C35:32768-65535"
+   }
+  },
+  "taskdefinitionBBCB03E6": {
+   "Type": "AWS::ECS::TaskDefinition",
+   "Properties": {
+    "ContainerDefinitions": [
+     {
+      "Cpu": 1024,
+      "Essential": true,
+      "Image": "681747700094.dkr.ecr.ap-northeast-2.amazonaws.com/abp-sample-registry:latest",
+      "MemoryReservation": 1024,
+      "Name": "restapi2-container",
+      "PortMappings": [
+       {
+        "ContainerPort": 8080,
+        "HostPort": 0,
+        "Protocol": "tcp"
+       }
+      ]
+     }
+    ],
+    "ExecutionRoleArn": "arn:aws:iam::681747700094:role/AmazonECSTaskExecutionRole",
+    "Family": "restapi2-task",
+    "NetworkMode": "bridge",
+    "RequiresCompatibilities": [
+     "EC2"
+    ],
+    "TaskRoleArn": "arn:aws:iam::681747700094:role/ECSDefaultTaskRole"
+   },
+   "Metadata": {
+    "aws:cdk:path": "EcsRestAPI2Service-local/task-definition/Resource"
+   }
+  },
+  "ec2serviceServiceCAD2C483": {
+   "Type": "AWS::ECS::Service",
+   "Properties": {
+    "CapacityProviderStrategy": [
+     {
+      "CapacityProvider": "dev-cdk-ecs-ec2-local-AsgCapacityProvider760D11D9-NiQhMnQH2vQC",
+      "Weight": 1
+     }
+    ],
+    "Cluster": "dev-cdk-ecs-ec2",
+    "DeploymentConfiguration": {
+     "MaximumPercent": 200,
+     "MinimumHealthyPercent": 50
+    },
+    "EnableECSManagedTags": false,
+    "LoadBalancers": [
+     {
+      "ContainerName": "restapi2-container",
+      "ContainerPort": 8080,
+      "TargetGroupArn": {
+       "Ref": "albhttpslistenerec2servicetargetGroup679226C2"
+      }
+     }
+    ],
+    "SchedulingStrategy": "REPLICA",
+    "ServiceName": "restapi2",
+    "TaskDefinition": {
+     "Ref": "taskdefinitionBBCB03E6"
+    }
+   },
+   "DependsOn": [
+    "albhttpslistenerec2servicetargetGroup679226C2",
+    "albhttpslistener38FF2581"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "EcsRestAPI2Service-local/ec2-service/Service"
+   }
+  },
+  "ec2serviceTaskCountTargetC1D8A82F": {
+   "Type": "AWS::ApplicationAutoScaling::ScalableTarget",
+   "Properties": {
+    "MaxCapacity": 20,
+    "MinCapacity": 2,
+    "ResourceId": {
+     "Fn::Join": [
+      "",
+      [
+       "service/dev-cdk-ecs-ec2/",
+       {
+        "Fn::GetAtt": [
+         "ec2serviceServiceCAD2C483",
+         "Name"
+        ]
+       }
+      ]
+     ]
+    },
+    "RoleARN": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::681747700094:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService"
+      ]
+     ]
+    },
+    "ScalableDimension": "ecs:service:DesiredCount",
+    "ServiceNamespace": "ecs"
+   },
+   "Metadata": {
+    "aws:cdk:path": "EcsRestAPI2Service-local/ec2-service/TaskCount/Target/Resource"
+   }
+  },
+  "ec2serviceTaskCountTargetCpuScaling4B0B3DE6": {
+   "Type": "AWS::ApplicationAutoScaling::ScalingPolicy",
+   "Properties": {
+    "PolicyName": "EcsRestAPI2Servicelocalec2serviceTaskCountTargetCpuScaling337416C7",
+    "PolicyType": "TargetTrackingScaling",
+    "ScalingTargetId": {
+     "Ref": "ec2serviceTaskCountTargetC1D8A82F"
+    },
+    "TargetTrackingScalingPolicyConfiguration": {
+     "PredefinedMetricSpecification": {
+      "PredefinedMetricType": "ECSServiceAverageCPUUtilization"
+     },
+     "ScaleInCooldown": 60,
+     "ScaleOutCooldown": 60,
+     "TargetValue": 50
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "EcsRestAPI2Service-local/ec2-service/TaskCount/Target/CpuScaling/Resource"
+   }
+  },
+  "logGroup68A52FBE": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": "restapi2",
+    "RetentionInDays": 14
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "EcsRestAPI2Service-local/logGroup/Resource"
+   }
+  },
+  "albsgrestapi2CDDC4C4C": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "ALB security group, service: restapi2",
+    "GroupName": "albsg-restapi2",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "VpcId": "vpc-0214a44f164562327"
+   },
+   "Metadata": {
+    "aws:cdk:path": "EcsRestAPI2Service-local/albsg-restapi2/Resource"
+   }
+  },
+  "alb8A8B13C2": {
+   "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+   "Properties": {
+    "LoadBalancerAttributes": [
+     {
+      "Key": "deletion_protection.enabled",
+      "Value": "false"
+     },
+     {
+      "Key": "idle_timeout.timeout_seconds",
+      "Value": "30"
+     }
+    ],
+    "Name": "alb-restapi2",
+    "Scheme": "internet-facing",
+    "SecurityGroups": [
+     {
+      "Fn::GetAtt": [
+       "albsgrestapi2CDDC4C4C",
+       "GroupId"
+      ]
+     }
+    ],
+    "Subnets": [
+     "subnet-0ecc4ec2f965ba927",
+     "subnet-07bdfd883456ad950",
+     "subnet-09ecd8673884198cd"
+    ],
+    "Type": "application"
+   },
+   "Metadata": {
+    "aws:cdk:path": "EcsRestAPI2Service-local/alb/Resource"
+   }
+  },
+  "albhttpslistener38FF2581": {
+   "Type": "AWS::ElasticLoadBalancingV2::Listener",
+   "Properties": {
+    "DefaultActions": [
+     {
+      "TargetGroupArn": {
+       "Ref": "albhttpslistenerec2servicetargetGroup679226C2"
+      },
+      "Type": "forward"
+     }
+    ],
+    "LoadBalancerArn": {
+     "Ref": "alb8A8B13C2"
+    },
+    "Port": 80,
+    "Protocol": "HTTP"
+   },
+   "Metadata": {
+    "aws:cdk:path": "EcsRestAPI2Service-local/alb/https-listener/Resource"
+   }
+  },
+  "albhttpslistenerec2servicetargetGroup679226C2": {
+   "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+   "Properties": {
+    "HealthCheckIntervalSeconds": 12,
+    "HealthCheckPath": "/ping",
+    "HealthCheckTimeoutSeconds": 10,
+    "HealthyThresholdCount": 2,
+    "Name": "tg-restapi2",
+    "Port": 8080,
+    "Protocol": "HTTP",
+    "TargetGroupAttributes": [
+     {
+      "Key": "deregistration_delay.timeout_seconds",
+      "Value": "15"
+     },
+     {
+      "Key": "stickiness.enabled",
+      "Value": "false"
+     }
+    ],
+    "TargetType": "instance",
+    "UnhealthyThresholdCount": 5,
+    "VpcId": "vpc-0214a44f164562327"
+   },
+   "Metadata": {
+    "aws:cdk:path": "EcsRestAPI2Service-local/alb/https-listener/ec2-service-targetGroup/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/11RTWvDMAz9Lb073hooPW/dKINCR9P7cBw1qPHs4I+MEvzfp8RLlvYk6ek9WU/Oeb7hzyvx4zJZNZnCkveFF7JhJ3AmWAmMel89yJz3u4suQAaL/ra3JrQfurbgHLsD2SMrMpCO92fhmje4oEaPRg+sR8RoL1CDXWDvMi/AdkhrjGNTWkihRKlgGLAzQfvIRNsqlGIQieCNIwbqmrzMVFuDH4fcIymcLVkmQZF0n4aG3Sb2DESmTE1WDqaerU45uVTCeZTKiKqkJ7QkXUdXe/lf7UC917EHNokX9ZKHzoP+40z5op+WnndYlDEOwDH4Noxup1+MTJsK+NU9dest3/L16uoQM0vHw2/gpxR/AUcYukUOAgAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "EcsRestAPI2Service-local/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "VPC": {
+   "Value": "vpc-0214a44f164562327"
+  },
+  "Cluster": {
+   "Value": "dev-cdk-ecs-ec2"
+  },
+  "Service": {
+   "Value": {
+    "Ref": "ec2serviceServiceCAD2C483"
+   }
+  },
+  "TaskDefinition": {
+   "Value": "restapi2-task"
+  },
+  "LogGroup": {
+   "Value": {
+    "Ref": "logGroup68A52FBE"
+   }
+  },
+  "ALB": {
+   "Value": {
+    "Fn::GetAtt": [
+     "alb8A8B13C2",
+     "DNSName"
+    ]
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

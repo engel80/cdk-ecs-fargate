@@ -1,0 +1,633 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "constructs.Construct",
+          "version": "10.1.15"
+        }
+      },
+      "EcsRestAPI2Service-local": {
+        "id": "EcsRestAPI2Service-local",
+        "path": "EcsRestAPI2Service-local",
+        "children": {
+          "vpc": {
+            "id": "vpc",
+            "path": "EcsRestAPI2Service-local/vpc",
+            "children": {
+              "publicSubnet1": {
+                "id": "publicSubnet1",
+                "path": "EcsRestAPI2Service-local/vpc/publicSubnet1",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.25.0"
+                }
+              },
+              "publicSubnet2": {
+                "id": "publicSubnet2",
+                "path": "EcsRestAPI2Service-local/vpc/publicSubnet2",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.25.0"
+                }
+              },
+              "publicSubnet3": {
+                "id": "publicSubnet3",
+                "path": "EcsRestAPI2Service-local/vpc/publicSubnet3",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.25.0"
+                }
+              },
+              "privateSubnet1": {
+                "id": "privateSubnet1",
+                "path": "EcsRestAPI2Service-local/vpc/privateSubnet1",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.25.0"
+                }
+              },
+              "privateSubnet2": {
+                "id": "privateSubnet2",
+                "path": "EcsRestAPI2Service-local/vpc/privateSubnet2",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.25.0"
+                }
+              },
+              "privateSubnet3": {
+                "id": "privateSubnet3",
+                "path": "EcsRestAPI2Service-local/vpc/privateSubnet3",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.25.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.25.0"
+            }
+          },
+          "ecs-security-group": {
+            "id": "ecs-security-group",
+            "path": "EcsRestAPI2Service-local/ecs-security-group",
+            "children": {
+              "from EcsRestAPI2Servicelocalalbsgrestapi203326C35:0": {
+                "id": "from EcsRestAPI2Servicelocalalbsgrestapi203326C35:0",
+                "path": "EcsRestAPI2Service-local/ecs-security-group/from EcsRestAPI2Servicelocalalbsgrestapi203326C35:0",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupIngress",
+                  "aws:cdk:cloudformation:props": {
+                    "ipProtocol": "tcp",
+                    "description": "Allows all from ALB",
+                    "fromPort": 0,
+                    "groupId": "sg-0c76ac118daf75c2a",
+                    "sourceSecurityGroupId": {
+                      "Fn::GetAtt": [
+                        "albsgrestapi2CDDC4C4C",
+                        "GroupId"
+                      ]
+                    },
+                    "toPort": 0
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupIngress",
+                  "version": "2.25.0"
+                }
+              },
+              "from EcsRestAPI2Servicelocalalbsgrestapi203326C35:32768-65535": {
+                "id": "from EcsRestAPI2Servicelocalalbsgrestapi203326C35:32768-65535",
+                "path": "EcsRestAPI2Service-local/ecs-security-group/from EcsRestAPI2Servicelocalalbsgrestapi203326C35:32768-65535",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroupIngress",
+                  "aws:cdk:cloudformation:props": {
+                    "ipProtocol": "tcp",
+                    "description": "Load balancer to target",
+                    "fromPort": 32768,
+                    "groupId": "sg-0c76ac118daf75c2a",
+                    "sourceSecurityGroupId": {
+                      "Fn::GetAtt": [
+                        "albsgrestapi2CDDC4C4C",
+                        "GroupId"
+                      ]
+                    },
+                    "toPort": 65535
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroupIngress",
+                  "version": "2.25.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.25.0"
+            }
+          },
+          "ecs-cluster": {
+            "id": "ecs-cluster",
+            "path": "EcsRestAPI2Service-local/ecs-cluster",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.25.0"
+            }
+          },
+          "task-execution-role": {
+            "id": "task-execution-role",
+            "path": "EcsRestAPI2Service-local/task-execution-role",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.25.0"
+            }
+          },
+          "task-role": {
+            "id": "task-role",
+            "path": "EcsRestAPI2Service-local/task-role",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.25.0"
+            }
+          },
+          "task-definition": {
+            "id": "task-definition",
+            "path": "EcsRestAPI2Service-local/task-definition",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "EcsRestAPI2Service-local/task-definition/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ECS::TaskDefinition",
+                  "aws:cdk:cloudformation:props": {
+                    "containerDefinitions": [
+                      {
+                        "cpu": 1024,
+                        "essential": true,
+                        "image": "681747700094.dkr.ecr.ap-northeast-2.amazonaws.com/abp-sample-registry:latest",
+                        "memoryReservation": 1024,
+                        "name": "restapi2-container",
+                        "portMappings": [
+                          {
+                            "containerPort": 8080,
+                            "hostPort": 0,
+                            "protocol": "tcp"
+                          }
+                        ]
+                      }
+                    ],
+                    "executionRoleArn": "arn:aws:iam::681747700094:role/AmazonECSTaskExecutionRole",
+                    "family": "restapi2-task",
+                    "networkMode": "bridge",
+                    "requiresCompatibilities": [
+                      "EC2"
+                    ],
+                    "taskRoleArn": "arn:aws:iam::681747700094:role/ECSDefaultTaskRole"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.CfnTaskDefinition",
+                  "version": "2.25.0"
+                }
+              },
+              "container-restapi": {
+                "id": "container-restapi",
+                "path": "EcsRestAPI2Service-local/task-definition/container-restapi",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.ContainerDefinition",
+                  "version": "2.25.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ecs.TaskDefinition",
+              "version": "2.25.0"
+            }
+          },
+          "ec2-service": {
+            "id": "ec2-service",
+            "path": "EcsRestAPI2Service-local/ec2-service",
+            "children": {
+              "Service": {
+                "id": "Service",
+                "path": "EcsRestAPI2Service-local/ec2-service/Service",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ECS::Service",
+                  "aws:cdk:cloudformation:props": {
+                    "capacityProviderStrategy": [
+                      {
+                        "capacityProvider": "dev-cdk-ecs-ec2-local-AsgCapacityProvider760D11D9-NiQhMnQH2vQC",
+                        "weight": 1
+                      }
+                    ],
+                    "cluster": "dev-cdk-ecs-ec2",
+                    "deploymentConfiguration": {
+                      "maximumPercent": 200,
+                      "minimumHealthyPercent": 50
+                    },
+                    "enableEcsManagedTags": false,
+                    "loadBalancers": [
+                      {
+                        "targetGroupArn": {
+                          "Ref": "albhttpslistenerec2servicetargetGroup679226C2"
+                        },
+                        "containerName": "restapi2-container",
+                        "containerPort": 8080
+                      }
+                    ],
+                    "schedulingStrategy": "REPLICA",
+                    "serviceName": "restapi2",
+                    "taskDefinition": {
+                      "Ref": "taskdefinitionBBCB03E6"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.CfnService",
+                  "version": "2.25.0"
+                }
+              },
+              "ScalingRole": {
+                "id": "ScalingRole",
+                "path": "EcsRestAPI2Service-local/ec2-service/ScalingRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.25.0"
+                }
+              },
+              "TaskCount": {
+                "id": "TaskCount",
+                "path": "EcsRestAPI2Service-local/ec2-service/TaskCount",
+                "children": {
+                  "Target": {
+                    "id": "Target",
+                    "path": "EcsRestAPI2Service-local/ec2-service/TaskCount/Target",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "EcsRestAPI2Service-local/ec2-service/TaskCount/Target/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApplicationAutoScaling::ScalableTarget",
+                          "aws:cdk:cloudformation:props": {
+                            "maxCapacity": 20,
+                            "minCapacity": 2,
+                            "resourceId": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "service/dev-cdk-ecs-ec2/",
+                                  {
+                                    "Fn::GetAtt": [
+                                      "ec2serviceServiceCAD2C483",
+                                      "Name"
+                                    ]
+                                  }
+                                ]
+                              ]
+                            },
+                            "roleArn": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "arn:",
+                                  {
+                                    "Ref": "AWS::Partition"
+                                  },
+                                  ":iam::681747700094:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService"
+                                ]
+                              ]
+                            },
+                            "scalableDimension": "ecs:service:DesiredCount",
+                            "serviceNamespace": "ecs"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_applicationautoscaling.CfnScalableTarget",
+                          "version": "2.25.0"
+                        }
+                      },
+                      "CpuScaling": {
+                        "id": "CpuScaling",
+                        "path": "EcsRestAPI2Service-local/ec2-service/TaskCount/Target/CpuScaling",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "EcsRestAPI2Service-local/ec2-service/TaskCount/Target/CpuScaling/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::ApplicationAutoScaling::ScalingPolicy",
+                              "aws:cdk:cloudformation:props": {
+                                "policyName": "EcsRestAPI2Servicelocalec2serviceTaskCountTargetCpuScaling337416C7",
+                                "policyType": "TargetTrackingScaling",
+                                "scalingTargetId": {
+                                  "Ref": "ec2serviceTaskCountTargetC1D8A82F"
+                                },
+                                "targetTrackingScalingPolicyConfiguration": {
+                                  "predefinedMetricSpecification": {
+                                    "predefinedMetricType": "ECSServiceAverageCPUUtilization"
+                                  },
+                                  "scaleInCooldown": 60,
+                                  "scaleOutCooldown": 60,
+                                  "targetValue": 50
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_applicationautoscaling.CfnScalingPolicy",
+                              "version": "2.25.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_applicationautoscaling.TargetTrackingScalingPolicy",
+                          "version": "2.25.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_applicationautoscaling.ScalableTarget",
+                      "version": "2.25.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ecs.ScalableTaskCount",
+                  "version": "2.25.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ecs.Ec2Service",
+              "version": "2.25.0"
+            }
+          },
+          "logGroup": {
+            "id": "logGroup",
+            "path": "EcsRestAPI2Service-local/logGroup",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "EcsRestAPI2Service-local/logGroup/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Logs::LogGroup",
+                  "aws:cdk:cloudformation:props": {
+                    "logGroupName": "restapi2",
+                    "retentionInDays": 14
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_logs.CfnLogGroup",
+                  "version": "2.25.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_logs.LogGroup",
+              "version": "2.25.0"
+            }
+          },
+          "albsg-restapi2": {
+            "id": "albsg-restapi2",
+            "path": "EcsRestAPI2Service-local/albsg-restapi2",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "EcsRestAPI2Service-local/albsg-restapi2/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
+                  "aws:cdk:cloudformation:props": {
+                    "groupDescription": "ALB security group, service: restapi2",
+                    "groupName": "albsg-restapi2",
+                    "securityGroupEgress": [
+                      {
+                        "cidrIp": "0.0.0.0/0",
+                        "description": "Allow all outbound traffic by default",
+                        "ipProtocol": "-1"
+                      }
+                    ],
+                    "vpcId": "vpc-0214a44f164562327"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
+                  "version": "2.25.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ec2.SecurityGroup",
+              "version": "2.25.0"
+            }
+          },
+          "alb": {
+            "id": "alb",
+            "path": "EcsRestAPI2Service-local/alb",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "EcsRestAPI2Service-local/alb/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+                  "aws:cdk:cloudformation:props": {
+                    "loadBalancerAttributes": [
+                      {
+                        "key": "deletion_protection.enabled",
+                        "value": "false"
+                      },
+                      {
+                        "key": "idle_timeout.timeout_seconds",
+                        "value": "30"
+                      }
+                    ],
+                    "name": "alb-restapi2",
+                    "scheme": "internet-facing",
+                    "securityGroups": [
+                      {
+                        "Fn::GetAtt": [
+                          "albsgrestapi2CDDC4C4C",
+                          "GroupId"
+                        ]
+                      }
+                    ],
+                    "subnets": [
+                      "subnet-0ecc4ec2f965ba927",
+                      "subnet-07bdfd883456ad950",
+                      "subnet-09ecd8673884198cd"
+                    ],
+                    "type": "application"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnLoadBalancer",
+                  "version": "2.25.0"
+                }
+              },
+              "https-listener": {
+                "id": "https-listener",
+                "path": "EcsRestAPI2Service-local/alb/https-listener",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "EcsRestAPI2Service-local/alb/https-listener/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::Listener",
+                      "aws:cdk:cloudformation:props": {
+                        "defaultActions": [
+                          {
+                            "type": "forward",
+                            "targetGroupArn": {
+                              "Ref": "albhttpslistenerec2servicetargetGroup679226C2"
+                            }
+                          }
+                        ],
+                        "loadBalancerArn": {
+                          "Ref": "alb8A8B13C2"
+                        },
+                        "port": 80,
+                        "protocol": "HTTP"
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnListener",
+                      "version": "2.25.0"
+                    }
+                  },
+                  "ec2-service-targetGroup": {
+                    "id": "ec2-service-targetGroup",
+                    "path": "EcsRestAPI2Service-local/alb/https-listener/ec2-service-targetGroup",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "EcsRestAPI2Service-local/alb/https-listener/ec2-service-targetGroup/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+                          "aws:cdk:cloudformation:props": {
+                            "healthCheckIntervalSeconds": 12,
+                            "healthCheckPath": "/ping",
+                            "healthCheckTimeoutSeconds": 10,
+                            "healthyThresholdCount": 2,
+                            "name": "tg-restapi2",
+                            "port": 8080,
+                            "protocol": "HTTP",
+                            "targetGroupAttributes": [
+                              {
+                                "key": "deregistration_delay.timeout_seconds",
+                                "value": "15"
+                              },
+                              {
+                                "key": "stickiness.enabled",
+                                "value": "false"
+                              }
+                            ],
+                            "targetType": "instance",
+                            "unhealthyThresholdCount": 5,
+                            "vpcId": "vpc-0214a44f164562327"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.CfnTargetGroup",
+                          "version": "2.25.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationTargetGroup",
+                      "version": "2.25.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListener",
+                  "version": "2.25.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationLoadBalancer",
+              "version": "2.25.0"
+            }
+          },
+          "VPC": {
+            "id": "VPC",
+            "path": "EcsRestAPI2Service-local/VPC",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.25.0"
+            }
+          },
+          "Cluster": {
+            "id": "Cluster",
+            "path": "EcsRestAPI2Service-local/Cluster",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.25.0"
+            }
+          },
+          "Service": {
+            "id": "Service",
+            "path": "EcsRestAPI2Service-local/Service",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.25.0"
+            }
+          },
+          "TaskDefinition": {
+            "id": "TaskDefinition",
+            "path": "EcsRestAPI2Service-local/TaskDefinition",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.25.0"
+            }
+          },
+          "LogGroup": {
+            "id": "LogGroup",
+            "path": "EcsRestAPI2Service-local/LogGroup",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.25.0"
+            }
+          },
+          "ALB": {
+            "id": "ALB",
+            "path": "EcsRestAPI2Service-local/ALB",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.25.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "EcsRestAPI2Service-local/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "EcsRestAPI2Service-local/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.25.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.1.15"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.25.0"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "aws-cdk-lib.App",
+      "version": "2.25.0"
+    }
+  }
+}

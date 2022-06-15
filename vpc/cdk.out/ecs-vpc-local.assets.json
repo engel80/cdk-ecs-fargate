@@ -1,0 +1,20 @@
+{
+  "version": "19.0.0",
+  "files": {
+    "a3092ed4078fb88587ec49f53f0e2167c48a0e6a3bd67323fab80b7b45f72a9f": {
+      "source": {
+        "path": "ecs-vpc-local.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "681747700094-ap-northeast-2": {
+          "bucketName": "cdk-hnb659fds-assets-681747700094-ap-northeast-2",
+          "objectKey": "a3092ed4078fb88587ec49f53f0e2167c48a0e6a3bd67323fab80b7b45f72a9f.json",
+          "region": "ap-northeast-2",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::681747700094:role/cdk-hnb659fds-file-publishing-role-681747700094-ap-northeast-2"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

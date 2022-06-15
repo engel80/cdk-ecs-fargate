@@ -1,0 +1,62 @@
+{
+  "ssm:account=681747700094:parameterName=/cdk-ecs-ec2/vpc-id:region=ap-northeast-2": "vpc-0d905c34a572c439d",
+  "ssm:account=681747700094:parameterName=/cdk-ecs-ec2/cluster-securitygroup-id:region=ap-northeast-2": "sg-09b87df3d3fe1ddbe",
+  "ssm:account=681747700094:parameterName=/cdk-ecs-ec2/cluster-capacityprovider-name:region=ap-northeast-2": "AsgCapacityProvider",
+  "ssm:account=681747700094:parameterName=/cdk-ecs-ec2/task-execution-role-arn:region=ap-northeast-2": "arn:aws:iam::681747700094:role/AmazonECSTaskExecutionRole",
+  "ssm:account=681747700094:parameterName=/cdk-ecs-ec2/default-task-role-arn:region=ap-northeast-2": "arn:aws:iam::681747700094:role/ECSDefaultTaskRole",
+  "vpc-provider:account=681747700094:filter.vpc-id=vpc-0d905c34a572c439d:region=ap-northeast-2:returnAsymmetricSubnets=true": {
+    "vpcId": "vpc-0d905c34a572c439d",
+    "vpcCidrBlock": "10.100.0.0/16",
+    "availabilityZones": [],
+    "subnetGroups": [
+      {
+        "name": "private",
+        "type": "Private",
+        "subnets": [
+          {
+            "subnetId": "subnet-001858efa4c4c4f10",
+            "cidr": "10.100.48.0/20",
+            "availabilityZone": "ap-northeast-2a",
+            "routeTableId": "rtb-06b4ce880fede921a"
+          },
+          {
+            "subnetId": "subnet-000fa65585b5f99a2",
+            "cidr": "10.100.64.0/20",
+            "availabilityZone": "ap-northeast-2b",
+            "routeTableId": "rtb-0ec9954be17198089"
+          },
+          {
+            "subnetId": "subnet-0b718054010d9457a",
+            "cidr": "10.100.80.0/20",
+            "availabilityZone": "ap-northeast-2c",
+            "routeTableId": "rtb-0cd9a3766504c13d8"
+          }
+        ]
+      },
+      {
+        "name": "public",
+        "type": "Public",
+        "subnets": [
+          {
+            "subnetId": "subnet-0aeef7a9cf0485c04",
+            "cidr": "10.100.0.0/20",
+            "availabilityZone": "ap-northeast-2a",
+            "routeTableId": "rtb-0eb0b6eaa6211e79f"
+          },
+          {
+            "subnetId": "subnet-02c777ae0ad6d8ff5",
+            "cidr": "10.100.16.0/20",
+            "availabilityZone": "ap-northeast-2b",
+            "routeTableId": "rtb-0ca83f4bf80761b7f"
+          },
+          {
+            "subnetId": "subnet-006cefa6196444072",
+            "cidr": "10.100.32.0/20",
+            "availabilityZone": "ap-northeast-2c",
+            "routeTableId": "rtb-0efd0904452d228e6"
+          }
+        ]
+      }
+    ]
+  }
+}
