@@ -18,4 +18,5 @@ cd ../vpc
 cdk destroy
 
 
+find . -name "cdk.out" -exec rm -rf {} \;
 find . -name "cdk.context.json" -exec rm -f {} \;
