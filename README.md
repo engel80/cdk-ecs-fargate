@@ -85,7 +85,7 @@ cd ../iam-role
 cdk deploy 
 ```
 
-[iam-role/lib/ecs-iam-role-stack.ts](./iam-role/lib/ecs-iam-role-stack.ts)
+[ecs-iam-role/lib/ecs-iam-role-stack.ts](./ecs-iam-role/lib/ecs-iam-role-stack.ts)
 
 ### Step 4: ECS Service
 
@@ -127,9 +127,9 @@ If the ECS cluster was re-created, you HAVE to deploy after cdk.context.json fil
 ### Step 5: Scaling Test
 
 ```bash
-aws ecs update-service --cluster fargate-local --service restapi --desired-count 5
+aws ecs update-service --cluster fargate-local --service restapi --desired-count 10
 
-aws ecs update-service --cluster fargate-local --service restapi2 --desired-count 13
+aws ecs update-service --cluster fargate-local --service restapi-spot --desired-count 10
 ```
 
 ### Step 6: Execute a command using ECS Exec
@@ -225,10 +225,6 @@ Load average: 0.00 0.02 0.00 4/301 75
 ## Reference
 
 ### Docs
-
-* [Networking > networkmode > bridge](https://docs.aws.amazon.com/AmazonECS/latest/bestpracticesguide/networking-networkmode-bridge.html)
-
-* [Dynamic Port Mapping](https://aws.amazon.com/premiumsupport/knowledge-center/dynamic-port-mapping-ecs) - The host and awsvpc network modes do not support dynamic host port mapping.
 
 * [ECS Exec](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-exec.html) for debugging
 
