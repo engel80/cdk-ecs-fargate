@@ -5,7 +5,7 @@ Table Of Contents
 1. Deploy VPC stack
 2. Deploy ECS Fargate cluster stack
 3. Deploy IAM Role stack
-4. Deploy ECS Service stack
+4. Deploy ECS Fargate Service stack
 5. Scaling Test
 6. Execute a command using ECS Exec
 
@@ -33,7 +33,7 @@ Use the `cdk` command-line toolkit to interact with your project:
 | VPC                           | 3m      |
 | ECS Fargate cluster           | 1m      |
 | IAM roles                     | 1m      |
-| ECS Service and ALB           | 3m      |
+| ECS Fargate Service and ALB   | 3m      |
 | Total                         | 8m      |
 
 ## Steps
