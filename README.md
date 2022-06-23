@@ -103,7 +103,7 @@ SSM parameters:
 
 [fargate-restapi-service/lib/fargate-restapi-service-stack.ts](./fargate-restapi-service/lib/fargate-restapi-service-stack.ts)
 
-#### Option
+#### Properties for production
 
 | Resource      | Property           | Value       |
 |---------------|--------------------|-------------|
