@@ -10,7 +10,7 @@ import * as ssm from 'aws-cdk-lib/aws-ssm';
 import { DockerImageAsset } from 'aws-cdk-lib/aws-ecr-assets';
 import { ApplicationLoadBalancer, ApplicationProtocol, SslPolicy } from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 
-import { CLUSTER_NAME } from '../../ecs-ec2-cluster/lib/cluster-config';
+import { CLUSTER_NAME } from '../../ecs-fargate-cluster/lib/cluster-config';
 import { SSM_PREFIX } from '../../ssm-prefix';
 
 /**
@@ -55,18 +55,15 @@ export class EcsRestAPIServiceStack extends Stack {
         });
         container.addPortMappings({ containerPort: applicationPort, hostPort: 0 });
 
-        const ecsService = new ecs.Ec2Service(this, 'ec2-service', {
+        const fargate = new ecs.FargateService(this, 'ecs-fargate-service', {
             cluster,
             serviceName,
             taskDefinition,
             enableExecuteCommand: true,
-            capacityProviderStrategies: [{
-                capacityProvider: capacityProviderName,
-                weight: 1
-            }]
+            // securityGroup: ecsSecurityGroup,
+            healthCheckGracePeriod: Duration.seconds(0),
         });
-
-        const scaling = ecsService.autoScaleTaskCount({
+        const scaling = fargate.autoScaleTaskCount({
             minCapacity: 2,
             maxCapacity: 20,
         });
@@ -108,7 +105,7 @@ export class EcsRestAPIServiceStack extends Stack {
             targetGroupName: `tg-${serviceName}`,
             port: applicationPort,
             protocol: ApplicationProtocol.HTTP,
-            targets: [ecsService.loadBalancerTarget({
+            targets: [fargate.loadBalancerTarget({
                 containerName: containerName,
                 containerPort: applicationPort,
             })],
@@ -121,11 +118,11 @@ export class EcsRestAPIServiceStack extends Stack {
             },
             deregistrationDelay: Duration.seconds(15)
         });
-        (ecsService.node.defaultChild as ecs.CfnService).healthCheckGracePeriodSeconds = undefined;
+        // (fargate.node.defaultChild as ecs.CfnService).healthCheckGracePeriodSeconds = undefined;
 
         new CfnOutput(this, 'VPC', { value: vpc.vpcId });
         new CfnOutput(this, 'Cluster', { value: cluster.clusterName });
-        new CfnOutput(this, 'Service', { value: ecsService.serviceArn });
+        new CfnOutput(this, 'Service', { value: fargate.serviceArn });
         new CfnOutput(this, 'TaskDefinition', { value: taskDefinition.family });
         new CfnOutput(this, 'LogGroup', { value: logGroup.logGroupName });
         new CfnOutput(this, 'ALB', { value: alb.loadBalancerDnsName });

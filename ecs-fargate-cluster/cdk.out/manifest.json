@@ -7,28 +7,28 @@
         "file": "tree.json"
       }
     },
-    "ecs-cluster-cdk-ecs-ec2-local.assets": {
+    "ecs-cluster-cdk-ecs-fargate-local.assets": {
       "type": "cdk:asset-manifest",
       "properties": {
-        "file": "ecs-cluster-cdk-ecs-ec2-local.assets.json",
+        "file": "ecs-cluster-cdk-ecs-fargate-local.assets.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
       }
     },
-    "ecs-cluster-cdk-ecs-ec2-local": {
+    "ecs-cluster-cdk-ecs-fargate-local": {
       "type": "aws:cloudformation:stack",
       "environment": "aws://681747700094/ap-northeast-2",
       "properties": {
-        "templateFile": "ecs-cluster-cdk-ecs-ec2-local.template.json",
+        "templateFile": "ecs-cluster-cdk-ecs-fargate-local.template.json",
         "terminationProtection": false,
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::681747700094:role/cdk-hnb659fds-deploy-role-681747700094-ap-northeast-2",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::681747700094:role/cdk-hnb659fds-cfn-exec-role-681747700094-ap-northeast-2",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-681747700094-ap-northeast-2/8bb4689e9dad94e73190cbe9ba0c867c7edd28a64c7c93163a5815e41d37b64c.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-681747700094-ap-northeast-2/89b2b2bab2454df950e6b040365678e6da93fe7fa4e46115a3217a9695e6f148.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
-          "ecs-cluster-cdk-ecs-ec2-local.assets"
+          "ecs-cluster-cdk-ecs-fargate-local.assets"
         ],
         "lookupRole": {
           "arn": "arn:${AWS::Partition}:iam::681747700094:role/cdk-hnb659fds-lookup-role-681747700094-ap-northeast-2",
@@ -37,179 +37,65 @@
         }
       },
       "dependencies": [
-        "ecs-cluster-cdk-ecs-ec2-local.assets"
+        "ecs-cluster-cdk-ecs-fargate-local.assets"
       ],
       "metadata": {
-        "/ecs-cluster-cdk-ecs-ec2-local/cluster/Resource": [
+        "/ecs-cluster-cdk-ecs-fargate-local/cluster/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "cluster611F8AFF"
           }
         ],
-        "/ecs-cluster-cdk-ecs-ec2-local/cluster/ec2-instance/InstanceSecurityGroup/Resource": [
+        "/ecs-cluster-cdk-ecs-fargate-local/ecs-security-group/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "clusterec2instanceInstanceSecurityGroup578A9F94"
+            "data": "ecssecuritygroupE15CB9D2"
           }
         ],
-        "/ecs-cluster-cdk-ecs-ec2-local/cluster/ec2-instance/InstanceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "clusterec2instanceInstanceRole68D49F48"
-          }
-        ],
-        "/ecs-cluster-cdk-ecs-ec2-local/cluster/ec2-instance/InstanceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "clusterec2instanceInstanceRoleDefaultPolicy3B4FD846"
-          }
-        ],
-        "/ecs-cluster-cdk-ecs-ec2-local/cluster/ec2-instance/InstanceProfile": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "clusterec2instanceInstanceProfileE8CC4E1E"
-          }
-        ],
-        "/ecs-cluster-cdk-ecs-ec2-local/cluster/ec2-instance/LaunchConfig": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "clusterec2instanceLaunchConfigC7E7C265"
-          }
-        ],
-        "/ecs-cluster-cdk-ecs-ec2-local/cluster/ec2-instance/ASG": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "clusterec2instanceASGDFF9BA32"
-          }
-        ],
-        "/ecs-cluster-cdk-ecs-ec2-local/cluster/ec2-instance/DrainECSHook/Function/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "clusterec2instanceDrainECSHookFunctionServiceRole771E0DA3"
-          }
-        ],
-        "/ecs-cluster-cdk-ecs-ec2-local/cluster/ec2-instance/DrainECSHook/Function/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "clusterec2instanceDrainECSHookFunctionServiceRoleDefaultPolicy474EA901"
-          }
-        ],
-        "/ecs-cluster-cdk-ecs-ec2-local/cluster/ec2-instance/DrainECSHook/Function/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "clusterec2instanceDrainECSHookFunction08590118"
-          }
-        ],
-        "/ecs-cluster-cdk-ecs-ec2-local/cluster/ec2-instance/DrainECSHook/Function/AllowInvoke:ecsclustercdkecsec2localclusterec2instanceLifecycleHookDrainHookTopic12714212": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "clusterec2instanceDrainECSHookFunctionAllowInvokeecsclustercdkecsec2localclusterec2instanceLifecycleHookDrainHookTopic12714212256FA51B"
-          }
-        ],
-        "/ecs-cluster-cdk-ecs-ec2-local/cluster/ec2-instance/DrainECSHook/Function/Topic/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "clusterec2instanceDrainECSHookFunctionTopicAF6AFC11"
-          }
-        ],
-        "/ecs-cluster-cdk-ecs-ec2-local/cluster/ec2-instance/LifecycleHookDrainHook/Topic/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "clusterec2instanceLifecycleHookDrainHookTopicED3593A2"
-          }
-        ],
-        "/ecs-cluster-cdk-ecs-ec2-local/cluster/ec2-instance/LifecycleHookDrainHook/Role/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "clusterec2instanceLifecycleHookDrainHookRole6468FE64"
-          }
-        ],
-        "/ecs-cluster-cdk-ecs-ec2-local/cluster/ec2-instance/LifecycleHookDrainHook/Role/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "clusterec2instanceLifecycleHookDrainHookRoleDefaultPolicy06D438BA"
-          }
-        ],
-        "/ecs-cluster-cdk-ecs-ec2-local/cluster/ec2-instance/LifecycleHookDrainHook/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "clusterec2instanceLifecycleHookDrainHookE450882C"
-          }
-        ],
-        "/ecs-cluster-cdk-ecs-ec2-local/cluster/cluster": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "clusterA4C38409"
-          }
-        ],
-        "/ecs-cluster-cdk-ecs-ec2-local/SsmParameterValue:--aws--service--ecs--optimized-ami--amazon-linux-2--recommended--image_id:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "SsmParameterValueawsserviceecsoptimizedamiamazonlinux2recommendedimageidC96584B6F00A464EAD1953AFF4B05118Parameter"
-          }
-        ],
-        "/ecs-cluster-cdk-ecs-ec2-local/asg-capacityprovider/asg-capacityprovider": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "asgcapacityprovider5CEB09E2"
-          }
-        ],
-        "/ecs-cluster-cdk-ecs-ec2-local/VPC": [
+        "/ecs-cluster-cdk-ecs-fargate-local/VPC": [
           {
             "type": "aws:cdk:logicalId",
             "data": "VPC"
           }
         ],
-        "/ecs-cluster-cdk-ecs-ec2-local/EC2 Security Group ID": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "EC2SecurityGroupID"
-          }
-        ],
-        "/ecs-cluster-cdk-ecs-ec2-local/Cluster": [
+        "/ecs-cluster-cdk-ecs-fargate-local/Cluster": [
           {
             "type": "aws:cdk:logicalId",
             "data": "Cluster"
           }
         ],
-        "/ecs-cluster-cdk-ecs-ec2-local/CapacityProvider": [
+        "/ecs-cluster-cdk-ecs-fargate-local/ECS Security Group ID": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "CapacityProvider"
+            "data": "ECSSecurityGroupID"
           }
         ],
-        "/ecs-cluster-cdk-ecs-ec2-local/ssm-cluster-capacityprovider-name/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ssmclustercapacityprovidername6802207B"
-          }
-        ],
-        "/ecs-cluster-cdk-ecs-ec2-local/ssm-cluster-securitygroup-id/Resource": [
+        "/ecs-cluster-cdk-ecs-fargate-local/ssm-cluster-securitygroup-id/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "ssmclustersecuritygroupid06B5375F"
           }
         ],
-        "/ecs-cluster-cdk-ecs-ec2-local/CDKMetadata/Default": [
+        "/ecs-cluster-cdk-ecs-fargate-local/CDKMetadata/Default": [
           {
             "type": "aws:cdk:logicalId",
             "data": "CDKMetadata"
           }
         ],
-        "/ecs-cluster-cdk-ecs-ec2-local/BootstrapVersion": [
+        "/ecs-cluster-cdk-ecs-fargate-local/BootstrapVersion": [
           {
             "type": "aws:cdk:logicalId",
             "data": "BootstrapVersion"
           }
         ],
-        "/ecs-cluster-cdk-ecs-ec2-local/CheckBootstrapVersion": [
+        "/ecs-cluster-cdk-ecs-fargate-local/CheckBootstrapVersion": [
           {
             "type": "aws:cdk:logicalId",
             "data": "CheckBootstrapVersion"
           }
         ]
       },
-      "displayName": "ecs-cluster-cdk-ecs-ec2-local"
+      "displayName": "ecs-cluster-cdk-ecs-fargate-local"
     }
   }
 }

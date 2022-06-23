@@ -2,7 +2,7 @@
 import * as cdk from 'aws-cdk-lib';
 
 import { CLUSTER_NAME } from '../lib/cluster-config';
-import { EcsEc2ClusterStack } from '../lib/ec2ecs-cluster-stack';
+import { EcsFargateClusterStack } from '../lib/ecs-fargate-cluster-stack';
 
 const app = new cdk.App();
 const env = {
@@ -11,7 +11,7 @@ const env = {
 };
 const stage = app.node.tryGetContext('stage') || 'local';
 
-new EcsEc2ClusterStack(app, `ecs-cluster-${CLUSTER_NAME}-${stage}`, {
+new EcsFargateClusterStack(app, `ecs-cluster-${CLUSTER_NAME}-${stage}`, {
     env,
     description: `ECS EC2 cluster, cluster name: ${CLUSTER_NAME}-${stage}`,
     terminationProtection: stage!='local'

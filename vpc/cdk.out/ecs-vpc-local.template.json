@@ -1,5 +1,5 @@
 {
- "Description": "VPC for EC2 ECS",
+ "Description": "VPC for ECS Fargate",
  "Resources": {
   "Vpc8378EB38": {
    "Type": "AWS::EC2::VPC",
@@ -621,7 +621,7 @@
     "Value": {
      "Ref": "Vpc8378EB38"
     },
-    "Name": "/cdk-ecs-ec2/vpc-id"
+    "Name": "/cdk-ecs-fargate/vpc-id"
    },
    "Metadata": {
     "aws:cdk:path": "ecs-vpc-local/SSMVPCID/Resource"

@@ -5,7 +5,7 @@ Sample project for CDK EC2 ECS with Typescript.
 Table Of Contents
 
 1. Deploy VPC stack
-2. Deploy ECS cluster stack
+2. Deploy ECS Fargate cluster stack
 3. Deploy IAM Role stack
 4. Deploy ECS Service stack
 5. Scaling Test
@@ -45,7 +45,7 @@ Use the [deploy-all.sh](./deploy-all.sh) file if you want to deploy all stacks w
 
 The VPC ID will be saved into the SSM Parameter Store to refer from other stacks.
 
-Parameter Name : `/cdk-ecs-ec2/vpc-id`
+Parameter Name : `/cdk-ecs-fargate/vpc-id`
 
 Use the `-c vpcId` context parameter to use the existing VPC.
 
@@ -68,11 +68,11 @@ cdk deploy -c vpcId=<vpc-id>
 
 SSM parameter:
 
-* /cdk-ecs-ec2/vpc-id
+* /cdk-ecs-fargate/vpc-id
 
 Cluster Name: [ecs-fargate-cluster/lib/cluster-config.ts](./ecs-fargate-cluster/lib/cluster-config.ts)
 
-[ecs-fargate-cluster/lib/cluster-stack.ts](./ecs-fargate-cluster/lib/cluster-stack.ts)
+[ecs-fargate-cluster/lib/ecs-fargate-cluster-stack.ts](./ecs-fargate-cluster/lib/ecs-fargate-cluster-stack.ts)
 
 ### Step 3: IAM Role
 
@@ -97,11 +97,11 @@ cdk deploy
 
 SSM parameters:
 
-* /cdk-ecs-ec2/vpc-id
-* /cdk-ecs-ec2/cluster-capacityprovider-name
-* /cdk-ecs-ec2/cluster-securitygroup-id
-* /cdk-ecs-ec2/task-execution-role-arn
-* /cdk-ecs-ec2/default-task-role-arn
+* /cdk-ecs-fargate/vpc-id
+* /cdk-ecs-fargate/cluster-capacityprovider-name
+* /cdk-ecs-fargate/cluster-securitygroup-id
+* /cdk-ecs-fargate/task-execution-role-arn
+* /cdk-ecs-fargate/default-task-role-arn
 
 [ecs-restapi-service/lib/ecs-restapi-service-stack.ts](./ecs-restapi-service/lib/ecs-restapi-service-stack.ts)
 
@@ -114,9 +114,9 @@ If the ECS cluster was re-created, you HAVE to deploy after cdk.context.json fil
 ### Step 5: Scaling Test
 
 ```bash
-aws ecs update-service --cluster cdk-ecs-ec2-local --service restapi --desired-count 5
+aws ecs update-service --cluster cdk-ecs-fargate-local --service restapi --desired-count 5
 
-aws ecs update-service --cluster cdk-ecs-ec2-local --service restapi2 --desired-count 13
+aws ecs update-service --cluster cdk-ecs-fargate-local --service restapi2 --desired-count 13
 ```
 
 ### Step 6: Execute a command using ECS Exec
@@ -126,22 +126,22 @@ Install the Session Manager plugin for the AWS CLI:
 https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html#install-plugin-linux
 
 ```bash
-aws ecs list-tasks --cluster cdk-ecs-ec2-local --service-name restapi
+aws ecs list-tasks --cluster cdk-ecs-fargate-local --service-name restapi
 ```
 
 ```json
 {
     "taskArns": [
-        "arn:aws:ecs:us-east-1:123456789:task/cdk-ecs-ec2-local/0a244ff8b8654b3abaaed0880b2b78f1",
-        "arn:aws:ecs:us-east-1:123456789:task/cdk-ecs-ec2-local/ac3d5a4e7273460a80aa18264e4a8f5e"
+        "arn:aws:ecs:us-east-1:123456789:task/cdk-ecs-fargate-local/0a244ff8b8654b3abaaed0880b2b78f1",
+        "arn:aws:ecs:us-east-1:123456789:task/cdk-ecs-fargate-local/ac3d5a4e7273460a80aa18264e4a8f5e"
     ]
 }
 ```
 
 ```bash
-TASK_ID=$(aws ecs list-tasks --cluster cdk-ecs-ec2-local --service-name restapi | jq '.taskArns[0]' | cut -d '/' -f3 | cut -d '"' -f1)
+TASK_ID=$(aws ecs list-tasks --cluster cdk-ecs-fargate-local --service-name restapi | jq '.taskArns[0]' | cut -d '/' -f3 | cut -d '"' -f1)
 
-aws ecs execute-command --cluster cdk-ecs-ec2-local --task $TASK_ID --container restapi-container  --interactive --command "/bin/sh"
+aws ecs execute-command --cluster cdk-ecs-fargate-local --task $TASK_ID --container restapi-container  --interactive --command "/bin/sh"
 ```
 
 ```bash

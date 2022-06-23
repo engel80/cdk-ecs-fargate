@@ -917,7 +917,7 @@
                     "value": {
                       "Ref": "Vpc8378EB38"
                     },
-                    "name": "/cdk-ecs-ec2/vpc-id"
+                    "name": "/cdk-ecs-fargate/vpc-id"
                   }
                 },
                 "constructInfo": {

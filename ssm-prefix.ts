@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 
 /**
- * /cdk-ecs-ec2/vpc-id
+ * /cdk-ecs-fargate/vpc-id
  * 
- * ecs-ec2-cluster:
- *   /cdk-ecs-ec2/cluster-capacityprovider-name
- *   /cdk-ecs-ec2/cluster-securitygroup-id
+ * ecs-fargate-cluster:
+ *   /cdk-ecs-fargate/cluster-capacityprovider-name
+ *   /cdk-ecs-fargate/cluster-securitygroup-id
  * 
  * iam-role:
- *   /cdk-ecs-ec2/task-execution-role-arn
- *   /cdk-ecs-ec2/default-task-role-arn
+ *   /cdk-ecs-fargate/task-execution-role-arn
+ *   /cdk-ecs-fargate/default-task-role-arn
  * 
  */
-export const SSM_PREFIX = '/cdk-ecs-ec2';
+export const SSM_PREFIX = '/cdk-ecs-fargate';
