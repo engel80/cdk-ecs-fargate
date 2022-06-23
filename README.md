@@ -34,6 +34,7 @@ Use the `cdk` command-line toolkit to interact with your project:
 | ECS Fargate cluster           | 1m      |
 | IAM roles                     | 1m      |
 | ECS Service and ALB           | 3m      |
+| Total                         | 8m      |
 
 ## Steps
 
