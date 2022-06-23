@@ -76,8 +76,8 @@ Cluster Name: [ecs-fargate-cluster/lib/cluster-config.ts](./ecs-fargate-cluster/
 
 Create the ECS Task Execution role and default Task Role.
 
-* AmazonECSTaskExecutionRole
-* ECSDefaultTaskRole including a policy for ECS Exec
+* AmazonECSFargateTaskExecutionRole
+* ECSFargateDefaultTaskRole including a policy for ECS Exec
 
 ```bash
 cd ../iam-role
@@ -96,12 +96,26 @@ cdk deploy
 SSM parameters:
 
 * /cdk-ecs-fargate/vpc-id
-* /cdk-ecs-fargate/cluster-capacityprovider-name
 * /cdk-ecs-fargate/cluster-securitygroup-id
 * /cdk-ecs-fargate/task-execution-role-arn
 * /cdk-ecs-fargate/default-task-role-arn
 
 [ecs-restapi-service/lib/ecs-restapi-service-stack.ts](./ecs-restapi-service/lib/ecs-restapi-service-stack.ts)
+
+#### Option
+
+| Resource      | Property           | Value       |
+|---------------|--------------------|-------------|
+| ECS Service   | minHealthyPercent  | 100         |
+| ECS Service   | maxHealthyPercent  | 200         |
+| ECS Service   | scaleOutCooldown   | 60 seconds  |
+| ECS Service   | scaleInCooldown    | 120 seconds |
+| ECS Service   | idleTimeout        | 30 seconds  |
+| ALB TargetGroup      | healthyThresholdCount    | 2  |
+| ALB TargetGroup      | unhealthyThresholdCount  | 5  |
+| ALB TargetGroup      | interval                 | 31 seconds  |
+| ALB TargetGroup      | timeout                  | 30 seconds  |
+| ALB TargetGroup      | deregistrationDelay      | 15 seconds  |
 
 **IMPORTANT**
 

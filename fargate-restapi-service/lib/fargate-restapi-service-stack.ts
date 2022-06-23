@@ -1,6 +1,6 @@
 import { Construct } from 'constructs';
 import * as cdk from 'aws-cdk-lib';
-import { Stack, StackProps, CfnOutput, Duration } from 'aws-cdk-lib';
+import { Stack, StackProps, CfnOutput, Duration, Tags } from 'aws-cdk-lib';
 import * as path from 'path';
 import * as ecs from 'aws-cdk-lib/aws-ecs';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
@@ -85,10 +85,13 @@ export class FargateRestAPIServiceStack extends Stack {
             securityGroupName: albSecurityGroupName,
             vpc,
             allowAllOutbound: true,
-            description: `ALB security group, service: ${serviceName}`
+            description: `ALB security group for ${serviceName} Service`
         });
         ecsSecurityGroup.addIngressRule(albSecurityGroup, ec2.Port.tcp(applicationPort), 'Allow from ALB');
         albSecurityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(80), 'Allow any')
+
+        Tags.of(ecsSecurityGroup).add('Stage', stage);
+        Tags.of(ecsSecurityGroup).add('Name', albSecurityGroupName);
 
         const alb = new elbv2.ApplicationLoadBalancer(this, 'alb', {
             securityGroup: albSecurityGroup,

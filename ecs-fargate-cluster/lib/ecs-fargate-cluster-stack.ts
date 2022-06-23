@@ -1,4 +1,4 @@
-import { Stack, StackProps, CfnOutput } from 'aws-cdk-lib';
+import { Stack, StackProps, CfnOutput, Tags } from 'aws-cdk-lib';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
 import * as ecs from 'aws-cdk-lib/aws-ecs';
@@ -31,6 +31,8 @@ export class EcsFargateClusterStack extends Stack {
             securityGroupName,
             description: `ECS Fargate shared security group for ALB ingress, cluster: ${cluster}`,
         });
+        Tags.of(ecsSecurityGroup).add('Stage', stage);
+        Tags.of(ecsSecurityGroup).add('Name', securityGroupName);
         
         new CfnOutput(this, 'Cluster', { value: cluster.clusterName });
         new CfnOutput(this, 'ECS Security Group ID', {value: ecsSecurityGroup.securityGroupId});
