@@ -4,19 +4,19 @@ import { Stack, StackProps, CfnOutput, Duration } from 'aws-cdk-lib';
 import * as path from 'path';
 import * as ecs from 'aws-cdk-lib/aws-ecs';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as elbv2 from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 import * as logs from 'aws-cdk-lib/aws-logs';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
-import { DockerImageAsset } from 'aws-cdk-lib/aws-ecr-assets';
-import { ApplicationLoadBalancer, ApplicationProtocol, SslPolicy } from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 
 import { CLUSTER_NAME } from '../../ecs-fargate-cluster/lib/cluster-config';
 import { SSM_PREFIX } from '../../ssm-prefix';
 
 /**
- * 
+ * Crearte Fargate Service, Auto Scaling, ALB, and Log Group.
+ * Set the ALB logs for the production-level.
  */
-export class EcsRestAPIServiceStack extends Stack {
+export class FargateRestAPIServiceStack extends Stack {
     constructor(scope: Construct, id: string, props?: StackProps) {
         super(scope, id, props);
 
@@ -26,21 +26,22 @@ export class EcsRestAPIServiceStack extends Stack {
         const clusterSgId = ssm.StringParameter.valueFromLookup(this, `${SSM_PREFIX}/cluster-securitygroup-id`);
         const ecsSecurityGroup = ec2.SecurityGroup.fromSecurityGroupId(this, 'ecs-security-group', clusterSgId);
 
-        const cluster = ecs.Cluster.fromClusterAttributes(this, 'ecs-cluster', {
+        const cluster = ecs.Cluster.fromClusterAttributes(this, 'ecs-fargate-cluster', {
             clusterName: `${CLUSTER_NAME}-${stage}`,
             vpc,
             securityGroups: [ecsSecurityGroup]
         });
-        const serviceName = 'restapi'
+        const serviceName = 'fargate-restapi'
         const containerName = `${serviceName}-container`
         const applicationPort = 8080;
 
-        const capacityProviderName = ssm.StringParameter.valueFromLookup(this, `${SSM_PREFIX}/cluster-capacityprovider-name`);
         const executionRoleArn = ssm.StringParameter.valueFromLookup(this, `${SSM_PREFIX}/task-execution-role-arn`);
         const taskRoleArn = ssm.StringParameter.valueFromLookup(this, `${SSM_PREFIX}/default-task-role-arn`);
 
-        const taskDefinition = new ecs.TaskDefinition(this, 'task-definition', {
-            compatibility: ecs.Compatibility.EC2,
+        const taskDefinition = new ecs.TaskDefinition(this, 'fargate-task-definition', {
+            cpu: '1024',
+            memoryMiB: '2048',
+            compatibility: ecs.Compatibility.FARGATE,
             family: `${serviceName}-task`,
             executionRole: iam.Role.fromRoleArn(this, 'task-execution-role', cdk.Lazy.string({ produce: () => executionRoleArn })),
             taskRole: iam.Role.fromRoleArn(this, 'task-role', cdk.Lazy.string({ produce: () => taskRoleArn }))
@@ -53,28 +54,29 @@ export class EcsRestAPIServiceStack extends Stack {
             cpu: 1024,
             memoryReservationMiB: 1024
         });
-        container.addPortMappings({ containerPort: applicationPort, hostPort: 0 });
+        container.addPortMappings({ containerPort: applicationPort, hostPort: applicationPort });
 
         const fargate = new ecs.FargateService(this, 'ecs-fargate-service', {
             cluster,
             serviceName,
             taskDefinition,
             enableExecuteCommand: true,
-            // securityGroup: ecsSecurityGroup,
-            healthCheckGracePeriod: Duration.seconds(0),
+            minHealthyPercent: 100,
+            maxHealthyPercent: 200,
+            healthCheckGracePeriod: Duration.seconds(0) // set the value as your application initialize time 
         });
-        const scaling = fargate.autoScaleTaskCount({
+        fargate.autoScaleTaskCount({
             minCapacity: 2,
-            maxCapacity: 20,
-        });
-        scaling.scaleOnCpuUtilization('cpuscaling', {
+            maxCapacity: 100,
+        }).scaleOnCpuUtilization('cpuscaling', {
             targetUtilizationPercent: 50,
             scaleOutCooldown: Duration.seconds(60),
             scaleInCooldown: Duration.seconds(120)
         });
+
         const logGroup = new logs.LogGroup(this, 'loggroup', {
-            removalPolicy: cdk.RemovalPolicy.DESTROY,
             logGroupName: serviceName,
+            removalPolicy: cdk.RemovalPolicy.DESTROY,
             retention: logs.RetentionDays.TWO_WEEKS,
         });
 
@@ -85,9 +87,10 @@ export class EcsRestAPIServiceStack extends Stack {
             allowAllOutbound: true,
             description: `ALB security group, service: ${serviceName}`
         });
-        ecsSecurityGroup.addIngressRule(albSecurityGroup, ec2.Port.tcp(0), 'Allows all from ALB');
+        ecsSecurityGroup.addIngressRule(albSecurityGroup, ec2.Port.tcp(applicationPort), 'Allow from ALB');
+        albSecurityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(80), 'Allow any')
 
-        const alb = new ApplicationLoadBalancer(this, 'alb', {
+        const alb = new elbv2.ApplicationLoadBalancer(this, 'alb', {
             securityGroup: albSecurityGroup,
             vpc,
             loadBalancerName: `alb-${serviceName}`,
@@ -95,16 +98,13 @@ export class EcsRestAPIServiceStack extends Stack {
             deletionProtection: false,
             idleTimeout: cdk.Duration.seconds(30),
         });
-
-        const listener = alb.addListener('https-listener', {
-            protocol: ApplicationProtocol.HTTP,
+        alb.addListener('https-listener', {
+            protocol: elbv2.ApplicationProtocol.HTTP,
             open: false,
-        });
-
-        listener.addTargets('ec2-service-target', {
+        }).addTargets('ec2-service-target', {
             targetGroupName: `tg-${serviceName}`,
             port: applicationPort,
-            protocol: ApplicationProtocol.HTTP,
+            protocol: elbv2.ApplicationProtocol.HTTP,
             targets: [fargate.loadBalancerTarget({
                 containerName: containerName,
                 containerPort: applicationPort,
@@ -112,16 +112,13 @@ export class EcsRestAPIServiceStack extends Stack {
             healthCheck: {
                 healthyThresholdCount: 2,
                 unhealthyThresholdCount: 5,
-                interval: Duration.seconds(12),
+                interval: Duration.seconds(31),
                 path: '/ping',
-                timeout: Duration.seconds(10),
+                timeout: Duration.seconds(30),
             },
             deregistrationDelay: Duration.seconds(15)
         });
-        // (fargate.node.defaultChild as ecs.CfnService).healthCheckGracePeriodSeconds = undefined;
 
-        new CfnOutput(this, 'VPC', { value: vpc.vpcId });
-        new CfnOutput(this, 'Cluster', { value: cluster.clusterName });
         new CfnOutput(this, 'Service', { value: fargate.serviceArn });
         new CfnOutput(this, 'TaskDefinition', { value: taskDefinition.family });
         new CfnOutput(this, 'LogGroup', { value: logGroup.logGroupName });

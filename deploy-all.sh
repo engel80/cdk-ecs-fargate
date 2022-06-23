@@ -18,7 +18,7 @@ cd ../ecs-iam-role
 cdk deploy --require-approval never
 
 
-echo "Deploy ecs-restapi-service"
+echo "Deploy fargate-restapi-service"
 
-cd ../ecs-restapi-service
+cd ../fargate-restapi-service
 cdk deploy --require-approval never

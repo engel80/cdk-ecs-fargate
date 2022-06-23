@@ -20,7 +20,7 @@ export class EcsIamRoleStack extends Stack {
 
     // AmazonECSTaskExecutionRole based on https://us-east-1.console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy$jsonEditor
     const taskExecutionRole = new iam.Role(this, 'task-execution-role', {
-      roleName: 'AmazonECSTaskExecutionRole',
+      roleName: 'AmazonECSFargateTaskExecutionRole',
       assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
       managedPolicies: [
         iam.ManagedPolicy.fromAwsManagedPolicyName(
@@ -30,7 +30,7 @@ export class EcsIamRoleStack extends Stack {
     });
 
     const defaultTaskRole = new iam.Role(this, 'default-task-role', {
-      roleName: 'ECSDefaultTaskRole',
+      roleName: 'ECSFargateDefaultTaskRole',
       assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
       managedPolicies: [
         iam.ManagedPolicy.fromAwsManagedPolicyName(

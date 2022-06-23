@@ -10,8 +10,8 @@ const env = {
 };
 const stage = app.node.tryGetContext('stage') || 'local';
 
-new EcsIamRoleStack(app, `ecs-iam-role-${stage}`,  {
+new EcsIamRoleStack(app, `ecs-fargate-iam-role-${stage}`,  {
     env,
-    description: 'EC2 ECS IAM Role',
+    description: 'ECS Fargate IAM Role',
     terminationProtection: stage!='local'
 });

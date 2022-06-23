@@ -7,28 +7,28 @@
         "file": "tree.json"
       }
     },
-    "ecs-cluster-cdk-ecs-fargate-local.assets": {
+    "ecs-fargate-cluster-fargate-local.assets": {
       "type": "cdk:asset-manifest",
       "properties": {
-        "file": "ecs-cluster-cdk-ecs-fargate-local.assets.json",
+        "file": "ecs-fargate-cluster-fargate-local.assets.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
       }
     },
-    "ecs-cluster-cdk-ecs-fargate-local": {
+    "ecs-fargate-cluster-fargate-local": {
       "type": "aws:cloudformation:stack",
       "environment": "aws://681747700094/ap-northeast-2",
       "properties": {
-        "templateFile": "ecs-cluster-cdk-ecs-fargate-local.template.json",
+        "templateFile": "ecs-fargate-cluster-fargate-local.template.json",
         "terminationProtection": false,
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::681747700094:role/cdk-hnb659fds-deploy-role-681747700094-ap-northeast-2",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::681747700094:role/cdk-hnb659fds-cfn-exec-role-681747700094-ap-northeast-2",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-681747700094-ap-northeast-2/89b2b2bab2454df950e6b040365678e6da93fe7fa4e46115a3217a9695e6f148.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-681747700094-ap-northeast-2/9b45916f96c95f1cabccc73bd72494e6fccbdd06a66b3c65fda9654aac1f2eaf.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
-          "ecs-cluster-cdk-ecs-fargate-local.assets"
+          "ecs-fargate-cluster-fargate-local.assets"
         ],
         "lookupRole": {
           "arn": "arn:${AWS::Partition}:iam::681747700094:role/cdk-hnb659fds-lookup-role-681747700094-ap-northeast-2",
@@ -37,65 +37,59 @@
         }
       },
       "dependencies": [
-        "ecs-cluster-cdk-ecs-fargate-local.assets"
+        "ecs-fargate-cluster-fargate-local.assets"
       ],
       "metadata": {
-        "/ecs-cluster-cdk-ecs-fargate-local/cluster/Resource": [
+        "/ecs-fargate-cluster-fargate-local/ecs-cluster/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "cluster611F8AFF"
+            "data": "ecscluster7830E7B5"
           }
         ],
-        "/ecs-cluster-cdk-ecs-fargate-local/ecs-security-group/Resource": [
+        "/ecs-fargate-cluster-fargate-local/ecs-security-group/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "ecssecuritygroupE15CB9D2"
           }
         ],
-        "/ecs-cluster-cdk-ecs-fargate-local/VPC": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "VPC"
-          }
-        ],
-        "/ecs-cluster-cdk-ecs-fargate-local/Cluster": [
+        "/ecs-fargate-cluster-fargate-local/Cluster": [
           {
             "type": "aws:cdk:logicalId",
             "data": "Cluster"
           }
         ],
-        "/ecs-cluster-cdk-ecs-fargate-local/ECS Security Group ID": [
+        "/ecs-fargate-cluster-fargate-local/ECS Security Group ID": [
           {
             "type": "aws:cdk:logicalId",
             "data": "ECSSecurityGroupID"
           }
         ],
-        "/ecs-cluster-cdk-ecs-fargate-local/ssm-cluster-securitygroup-id/Resource": [
+        "/ecs-fargate-cluster-fargate-local/ssm-cluster-securitygroup-id/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "ssmclustersecuritygroupid06B5375F"
           }
         ],
-        "/ecs-cluster-cdk-ecs-fargate-local/CDKMetadata/Default": [
+        "/ecs-fargate-cluster-fargate-local/CDKMetadata/Default": [
           {
             "type": "aws:cdk:logicalId",
             "data": "CDKMetadata"
           }
         ],
-        "/ecs-cluster-cdk-ecs-fargate-local/BootstrapVersion": [
+        "/ecs-fargate-cluster-fargate-local/BootstrapVersion": [
           {
             "type": "aws:cdk:logicalId",
             "data": "BootstrapVersion"
           }
         ],
-        "/ecs-cluster-cdk-ecs-fargate-local/CheckBootstrapVersion": [
+        "/ecs-fargate-cluster-fargate-local/CheckBootstrapVersion": [
           {
             "type": "aws:cdk:logicalId",
             "data": "CheckBootstrapVersion"
           }
         ]
       },
-      "displayName": "ecs-cluster-cdk-ecs-fargate-local"
+      "displayName": "ecs-fargate-cluster-fargate-local"
     }
   }
 }

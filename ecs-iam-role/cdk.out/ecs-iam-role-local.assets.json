@@ -1,7 +1,7 @@
 {
   "version": "19.0.0",
   "files": {
-    "465e8effb1a0f5edb8789bc37a2c866d0217af140c410ee3ba73374c54243487": {
+    "1b7ac1e7bab8fb4f443cbc213f46d0b5be4efa943dffb27f7589f9ef3ffc51b9": {
       "source": {
         "path": "ecs-iam-role-local.template.json",
         "packaging": "file"
@@ -9,7 +9,7 @@
       "destinations": {
         "681747700094-ap-northeast-2": {
           "bucketName": "cdk-hnb659fds-assets-681747700094-ap-northeast-2",
-          "objectKey": "465e8effb1a0f5edb8789bc37a2c866d0217af140c410ee3ba73374c54243487.json",
+          "objectKey": "1b7ac1e7bab8fb4f443cbc213f46d0b5be4efa943dffb27f7589f9ef3ffc51b9.json",
           "region": "ap-northeast-2",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::681747700094:role/cdk-hnb659fds-file-publishing-role-681747700094-ap-northeast-2"
         }

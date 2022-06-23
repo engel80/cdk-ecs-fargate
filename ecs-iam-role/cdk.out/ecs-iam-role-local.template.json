@@ -30,7 +30,7 @@
       ]
      }
     ],
-    "RoleName": "AmazonECSTaskExecutionRole"
+    "RoleName": "AmazonECSFargateTaskExecutionRole"
    },
    "Metadata": {
     "aws:cdk:path": "ecs-iam-role-local/task-execution-role/Resource"
@@ -97,7 +97,7 @@
       "PolicyName": "ECSExec"
      }
     ],
-    "RoleName": "ECSDefaultTaskRole"
+    "RoleName": "ECSFargateDefaultTaskRole"
    },
    "Metadata": {
     "aws:cdk:path": "ecs-iam-role-local/default-task-role/Resource"
@@ -113,7 +113,7 @@
       "Arn"
      ]
     },
-    "Name": "/cdk-ecs-ec2/task-execution-role-arn"
+    "Name": "/cdk-ecs-fargate/task-execution-role-arn"
    },
    "Metadata": {
     "aws:cdk:path": "ecs-iam-role-local/ssm-task-execution-role/Resource"
@@ -129,7 +129,7 @@
       "Arn"
      ]
     },
-    "Name": "/cdk-ecs-ec2/default-task-role-arn"
+    "Name": "/cdk-ecs-fargate/default-task-role-arn"
    },
    "Metadata": {
     "aws:cdk:path": "ecs-iam-role-local/ssm-default-task-role/Resource"

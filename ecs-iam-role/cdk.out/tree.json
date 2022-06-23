@@ -12,17 +12,17 @@
           "version": "10.1.15"
         }
       },
-      "ecs-iam-role-local": {
-        "id": "ecs-iam-role-local",
-        "path": "ecs-iam-role-local",
+      "ecs-fargate-iam-role-local": {
+        "id": "ecs-fargate-iam-role-local",
+        "path": "ecs-fargate-iam-role-local",
         "children": {
           "task-execution-role": {
             "id": "task-execution-role",
-            "path": "ecs-iam-role-local/task-execution-role",
+            "path": "ecs-fargate-iam-role-local/task-execution-role",
             "children": {
               "Resource": {
                 "id": "Resource",
-                "path": "ecs-iam-role-local/task-execution-role/Resource",
+                "path": "ecs-fargate-iam-role-local/task-execution-role/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                   "aws:cdk:cloudformation:props": {
@@ -52,7 +52,7 @@
                         ]
                       }
                     ],
-                    "roleName": "AmazonECSTaskExecutionRole"
+                    "roleName": "AmazonECSFargateTaskExecutionRole"
                   }
                 },
                 "constructInfo": {
@@ -68,11 +68,11 @@
           },
           "default-task-role": {
             "id": "default-task-role",
-            "path": "ecs-iam-role-local/default-task-role",
+            "path": "ecs-fargate-iam-role-local/default-task-role",
             "children": {
               "Resource": {
                 "id": "Resource",
-                "path": "ecs-iam-role-local/default-task-role/Resource",
+                "path": "ecs-fargate-iam-role-local/default-task-role/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                   "aws:cdk:cloudformation:props": {
@@ -134,7 +134,7 @@
                         }
                       }
                     ],
-                    "roleName": "ECSDefaultTaskRole"
+                    "roleName": "ECSFargateDefaultTaskRole"
                   }
                 },
                 "constructInfo": {
@@ -150,11 +150,11 @@
           },
           "ssm-task-execution-role": {
             "id": "ssm-task-execution-role",
-            "path": "ecs-iam-role-local/ssm-task-execution-role",
+            "path": "ecs-fargate-iam-role-local/ssm-task-execution-role",
             "children": {
               "Resource": {
                 "id": "Resource",
-                "path": "ecs-iam-role-local/ssm-task-execution-role/Resource",
+                "path": "ecs-fargate-iam-role-local/ssm-task-execution-role/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::SSM::Parameter",
                   "aws:cdk:cloudformation:props": {
@@ -165,7 +165,7 @@
                         "Arn"
                       ]
                     },
-                    "name": "/cdk-ecs-ec2/task-execution-role-arn"
+                    "name": "/cdk-ecs-fargate/task-execution-role-arn"
                   }
                 },
                 "constructInfo": {
@@ -181,11 +181,11 @@
           },
           "ssm-default-task-role": {
             "id": "ssm-default-task-role",
-            "path": "ecs-iam-role-local/ssm-default-task-role",
+            "path": "ecs-fargate-iam-role-local/ssm-default-task-role",
             "children": {
               "Resource": {
                 "id": "Resource",
-                "path": "ecs-iam-role-local/ssm-default-task-role/Resource",
+                "path": "ecs-fargate-iam-role-local/ssm-default-task-role/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::SSM::Parameter",
                   "aws:cdk:cloudformation:props": {
@@ -196,7 +196,7 @@
                         "Arn"
                       ]
                     },
-                    "name": "/cdk-ecs-ec2/default-task-role-arn"
+                    "name": "/cdk-ecs-fargate/default-task-role-arn"
                   }
                 },
                 "constructInfo": {
@@ -212,7 +212,7 @@
           },
           "SSMTaskExecRoleParam": {
             "id": "SSMTaskExecRoleParam",
-            "path": "ecs-iam-role-local/SSMTaskExecRoleParam",
+            "path": "ecs-fargate-iam-role-local/SSMTaskExecRoleParam",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.25.0"
@@ -220,7 +220,7 @@
           },
           "SSMTaskExecRoleParamValue": {
             "id": "SSMTaskExecRoleParamValue",
-            "path": "ecs-iam-role-local/SSMTaskExecRoleParamValue",
+            "path": "ecs-fargate-iam-role-local/SSMTaskExecRoleParamValue",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.25.0"
@@ -228,7 +228,7 @@
           },
           "SSMDefaultTaskRoleParam": {
             "id": "SSMDefaultTaskRoleParam",
-            "path": "ecs-iam-role-local/SSMDefaultTaskRoleParam",
+            "path": "ecs-fargate-iam-role-local/SSMDefaultTaskRoleParam",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.25.0"
@@ -236,7 +236,7 @@
           },
           "SSMDefaultTaskRoleParamValue": {
             "id": "SSMDefaultTaskRoleParamValue",
-            "path": "ecs-iam-role-local/SSMDefaultTaskRoleParamValue",
+            "path": "ecs-fargate-iam-role-local/SSMDefaultTaskRoleParamValue",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.25.0"
@@ -244,11 +244,11 @@
           },
           "CDKMetadata": {
             "id": "CDKMetadata",
-            "path": "ecs-iam-role-local/CDKMetadata",
+            "path": "ecs-fargate-iam-role-local/CDKMetadata",
             "children": {
               "Default": {
                 "id": "Default",
-                "path": "ecs-iam-role-local/CDKMetadata/Default",
+                "path": "ecs-fargate-iam-role-local/CDKMetadata/Default",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.CfnResource",
                   "version": "2.25.0"

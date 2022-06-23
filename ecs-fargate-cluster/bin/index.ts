@@ -11,8 +11,8 @@ const env = {
 };
 const stage = app.node.tryGetContext('stage') || 'local';
 
-new EcsFargateClusterStack(app, `ecs-cluster-${CLUSTER_NAME}-${stage}`, {
+new EcsFargateClusterStack(app, `ecs-fargate-cluster-${CLUSTER_NAME}-${stage}`, {
     env,
-    description: `ECS EC2 cluster, cluster name: ${CLUSTER_NAME}-${stage}`,
+    description: `ECS Fargate cluster, cluster name: ${CLUSTER_NAME}-${stage}`,
     terminationProtection: stage!='local'
 });

@@ -12,17 +12,17 @@
           "version": "10.1.15"
         }
       },
-      "ecs-cluster-cdk-ecs-fargate-local": {
-        "id": "ecs-cluster-cdk-ecs-fargate-local",
-        "path": "ecs-cluster-cdk-ecs-fargate-local",
+      "ecs-fargate-cluster-fargate-local": {
+        "id": "ecs-fargate-cluster-fargate-local",
+        "path": "ecs-fargate-cluster-fargate-local",
         "children": {
           "vpc": {
             "id": "vpc",
-            "path": "ecs-cluster-cdk-ecs-fargate-local/vpc",
+            "path": "ecs-fargate-cluster-fargate-local/vpc",
             "children": {
               "publicSubnet1": {
                 "id": "publicSubnet1",
-                "path": "ecs-cluster-cdk-ecs-fargate-local/vpc/publicSubnet1",
+                "path": "ecs-fargate-cluster-fargate-local/vpc/publicSubnet1",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.Resource",
                   "version": "2.25.0"
@@ -30,7 +30,7 @@
               },
               "publicSubnet2": {
                 "id": "publicSubnet2",
-                "path": "ecs-cluster-cdk-ecs-fargate-local/vpc/publicSubnet2",
+                "path": "ecs-fargate-cluster-fargate-local/vpc/publicSubnet2",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.Resource",
                   "version": "2.25.0"
@@ -38,7 +38,7 @@
               },
               "publicSubnet3": {
                 "id": "publicSubnet3",
-                "path": "ecs-cluster-cdk-ecs-fargate-local/vpc/publicSubnet3",
+                "path": "ecs-fargate-cluster-fargate-local/vpc/publicSubnet3",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.Resource",
                   "version": "2.25.0"
@@ -46,7 +46,7 @@
               },
               "privateSubnet1": {
                 "id": "privateSubnet1",
-                "path": "ecs-cluster-cdk-ecs-fargate-local/vpc/privateSubnet1",
+                "path": "ecs-fargate-cluster-fargate-local/vpc/privateSubnet1",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.Resource",
                   "version": "2.25.0"
@@ -54,7 +54,7 @@
               },
               "privateSubnet2": {
                 "id": "privateSubnet2",
-                "path": "ecs-cluster-cdk-ecs-fargate-local/vpc/privateSubnet2",
+                "path": "ecs-fargate-cluster-fargate-local/vpc/privateSubnet2",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.Resource",
                   "version": "2.25.0"
@@ -62,7 +62,7 @@
               },
               "privateSubnet3": {
                 "id": "privateSubnet3",
-                "path": "ecs-cluster-cdk-ecs-fargate-local/vpc/privateSubnet3",
+                "path": "ecs-fargate-cluster-fargate-local/vpc/privateSubnet3",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.Resource",
                   "version": "2.25.0"
@@ -74,17 +74,17 @@
               "version": "2.25.0"
             }
           },
-          "cluster": {
-            "id": "cluster",
-            "path": "ecs-cluster-cdk-ecs-fargate-local/cluster",
+          "ecs-cluster": {
+            "id": "ecs-cluster",
+            "path": "ecs-fargate-cluster-fargate-local/ecs-cluster",
             "children": {
               "Resource": {
                 "id": "Resource",
-                "path": "ecs-cluster-cdk-ecs-fargate-local/cluster/Resource",
+                "path": "ecs-fargate-cluster-fargate-local/ecs-cluster/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::ECS::Cluster",
                   "aws:cdk:cloudformation:props": {
-                    "clusterName": "cdk-ecs-fargate-local",
+                    "clusterName": "fargate-local",
                     "clusterSettings": [
                       {
                         "name": "containerInsights",
@@ -106,16 +106,16 @@
           },
           "ecs-security-group": {
             "id": "ecs-security-group",
-            "path": "ecs-cluster-cdk-ecs-fargate-local/ecs-security-group",
+            "path": "ecs-fargate-cluster-fargate-local/ecs-security-group",
             "children": {
               "Resource": {
                 "id": "Resource",
-                "path": "ecs-cluster-cdk-ecs-fargate-local/ecs-security-group/Resource",
+                "path": "ecs-fargate-cluster-fargate-local/ecs-security-group/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
                   "aws:cdk:cloudformation:props": {
-                    "groupDescription": "ECS Fargate security group, cluster: ecs-cluster-cdk-ecs-fargate-local/cluster",
-                    "groupName": "ecssg-cdk-ecs-fargate-local",
+                    "groupDescription": "ECS Fargate shared security group for ALB ingress, cluster: ecs-fargate-cluster-fargate-local/ecs-cluster",
+                    "groupName": "ecssg-fargate-local",
                     "securityGroupEgress": [
                       {
                         "cidrIp": "0.0.0.0/0",
@@ -137,17 +137,9 @@
               "version": "2.25.0"
             }
           },
-          "VPC": {
-            "id": "VPC",
-            "path": "ecs-cluster-cdk-ecs-fargate-local/VPC",
-            "constructInfo": {
-              "fqn": "aws-cdk-lib.CfnOutput",
-              "version": "2.25.0"
-            }
-          },
           "Cluster": {
             "id": "Cluster",
-            "path": "ecs-cluster-cdk-ecs-fargate-local/Cluster",
+            "path": "ecs-fargate-cluster-fargate-local/Cluster",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.25.0"
@@ -155,7 +147,7 @@
           },
           "ECS Security Group ID": {
             "id": "ECS Security Group ID",
-            "path": "ecs-cluster-cdk-ecs-fargate-local/ECS Security Group ID",
+            "path": "ecs-fargate-cluster-fargate-local/ECS Security Group ID",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.25.0"
@@ -163,11 +155,11 @@
           },
           "ssm-cluster-securitygroup-id": {
             "id": "ssm-cluster-securitygroup-id",
-            "path": "ecs-cluster-cdk-ecs-fargate-local/ssm-cluster-securitygroup-id",
+            "path": "ecs-fargate-cluster-fargate-local/ssm-cluster-securitygroup-id",
             "children": {
               "Resource": {
                 "id": "Resource",
-                "path": "ecs-cluster-cdk-ecs-fargate-local/ssm-cluster-securitygroup-id/Resource",
+                "path": "ecs-fargate-cluster-fargate-local/ssm-cluster-securitygroup-id/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::SSM::Parameter",
                   "aws:cdk:cloudformation:props": {
@@ -194,11 +186,11 @@
           },
           "CDKMetadata": {
             "id": "CDKMetadata",
-            "path": "ecs-cluster-cdk-ecs-fargate-local/CDKMetadata",
+            "path": "ecs-fargate-cluster-fargate-local/CDKMetadata",
             "children": {
               "Default": {
                 "id": "Default",
-                "path": "ecs-cluster-cdk-ecs-fargate-local/CDKMetadata/Default",
+                "path": "ecs-fargate-cluster-fargate-local/CDKMetadata/Default",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.CfnResource",
                   "version": "2.25.0"
