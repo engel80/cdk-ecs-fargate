@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import * as cdk from 'aws-cdk-lib';
-import { FargateRestAPIServiceStack } from '../lib/fargate-restapi-service-stack';
+import { FargateRestAPIServiceStack } from '../lib/ecs-fargate-service-restapi-stack';
 
 const app = new cdk.App();
 const env = {

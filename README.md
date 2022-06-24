@@ -107,7 +107,7 @@ SSM parameters:
 
 [ecs-fargate-service-restapi/lib/ecs-fargate-service-restapi-stack.ts](./ecs-fargate-service-restapi/lib/ecs-fargate-service-restapi-stack.ts)
 
-#### Propertie values for production
+#### Property values for Staging and Production
 
 | Resource      | Property           | Value       |
 |---------------|--------------------|-------------|
@@ -115,7 +115,7 @@ SSM parameters:
 | ECS Service   | maxHealthyPercent  | 200         |
 | ECS Service   | scaleOutCooldown   | 60 seconds  |
 | ECS Service   | scaleInCooldown    | 120 seconds |
-| ECS Service   | idleTimeout        | 30 seconds  |
+| ALB           | idleTimeout        | 30 seconds  |
 | ALB TargetGroup      | healthyThresholdCount    | 2  |
 | ALB TargetGroup      | unhealthyThresholdCount  | 5  |
 | ALB TargetGroup      | interval                 | 31 seconds  |
