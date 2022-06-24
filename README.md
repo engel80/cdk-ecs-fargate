@@ -245,12 +245,18 @@ Load average: 0.00 0.02 0.00 4/301 75
 │   ├── cdk.json
 │   └── lib
 │       └── ecs-iam-role-stack.ts
-├── fargate-restapi-service
+├── ecs-fargate-service-restapi
 │   ├── bin
 │   │   └── index.ts
 │   ├── cdk.json
 │   ├── lib
-│   │   └── fargate-restapi-service-stack.ts
+│   │   └── ecs-fargate-service-restapi-stack.ts
+├── ecs-fargatespot-service-restapi
+│   ├── bin
+│   │   └── index.ts
+│   ├── cdk.json
+│   ├── lib
+│   │   └── ecs-fargatespot-service-restapi-stack.ts
 ├── app
 │   ├── Dockerfile
 │   ├── README.md
