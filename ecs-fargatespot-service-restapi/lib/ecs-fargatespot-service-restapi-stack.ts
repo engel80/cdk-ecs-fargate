@@ -13,10 +13,10 @@ import { CLUSTER_NAME } from '../../ecs-fargate-cluster/lib/cluster-config';
 import { SSM_PREFIX } from '../../ssm-prefix';
 
 /**
- * Crearte Fargate Service, Auto Scaling, ALB, and Log Group.
+ * Crearte Fargate Service with Spot CapacityProvider, Auto Scaling, ALB, and Log Group.
  * Set the ALB logs for the production-level.
  */
-export class FargateRestAPIServiceStack extends Stack {
+export class FargateSpotRestAPIServiceStack extends Stack {
     constructor(scope: Construct, id: string, props?: StackProps) {
         super(scope, id, props);
 
@@ -56,16 +56,26 @@ export class FargateRestAPIServiceStack extends Stack {
         });
         container.addPortMappings({ containerPort: applicationPort, hostPort: applicationPort });
 
-        const fargate = new ecs.FargateService(this, 'ecs-fargate-service', {
+        const fargateservice = new ecs.FargateService(this, 'ecs-fargate-service', {
             cluster,
             serviceName,
             taskDefinition,
             enableExecuteCommand: true,
             minHealthyPercent: 100,
             maxHealthyPercent: 200,
-            healthCheckGracePeriod: Duration.seconds(0) // set the value as your application initialize time 
+            healthCheckGracePeriod: Duration.seconds(0), // set the value as your application initialize time 
+            capacityProviderStrategies: [
+                {
+                    capacityProvider: 'FARGATE_SPOT',
+                    weight: 1,
+                },
+                {
+                    capacityProvider: 'FARGATE',
+                    weight: 1,
+                }
+            ]
         });
-        fargate.autoScaleTaskCount({
+        fargateservice.autoScaleTaskCount({
             minCapacity: 2,
             maxCapacity: 100,
         }).scaleOnCpuUtilization('cpuscaling', {
@@ -108,7 +118,7 @@ export class FargateRestAPIServiceStack extends Stack {
             targetGroupName: `tg-${serviceName}`,
             port: applicationPort,
             protocol: elbv2.ApplicationProtocol.HTTP,
-            targets: [fargate.loadBalancerTarget({
+            targets: [fargateservice.loadBalancerTarget({
                 containerName: containerName,
                 containerPort: applicationPort,
             })],
@@ -122,7 +132,7 @@ export class FargateRestAPIServiceStack extends Stack {
             deregistrationDelay: Duration.seconds(15)
         });
 
-        new CfnOutput(this, 'Service', { value: fargate.serviceArn });
+        new CfnOutput(this, 'Service', { value: fargateservice.serviceArn });
         new CfnOutput(this, 'TaskDefinition', { value: taskDefinition.family });
         new CfnOutput(this, 'LogGroup', { value: logGroup.logGroupName });
         new CfnOutput(this, 'ALB', { value: alb.loadBalancerDnsName });
