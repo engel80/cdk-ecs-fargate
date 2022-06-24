@@ -56,7 +56,7 @@ export class FargateRestAPIServiceStack extends Stack {
         });
         container.addPortMappings({ containerPort: applicationPort, hostPort: applicationPort });
 
-        const fargate = new ecs.FargateService(this, 'ecs-fargate-service', {
+        const fargateservice = new ecs.FargateService(this, 'ecs-fargate-service', {
             cluster,
             serviceName,
             taskDefinition,
@@ -65,7 +65,7 @@ export class FargateRestAPIServiceStack extends Stack {
             maxHealthyPercent: 200,
             healthCheckGracePeriod: Duration.seconds(0) // set the value as your application initialize time 
         });
-        fargate.autoScaleTaskCount({
+        fargateservice.autoScaleTaskCount({
             minCapacity: 2,
             maxCapacity: 100,
         }).scaleOnCpuUtilization('cpuscaling', {
@@ -108,7 +108,7 @@ export class FargateRestAPIServiceStack extends Stack {
             targetGroupName: `tg-${serviceName}`,
             port: applicationPort,
             protocol: elbv2.ApplicationProtocol.HTTP,
-            targets: [fargate.loadBalancerTarget({
+            targets: [fargateservice.loadBalancerTarget({
                 containerName: containerName,
                 containerPort: applicationPort,
             })],
@@ -122,7 +122,7 @@ export class FargateRestAPIServiceStack extends Stack {
             deregistrationDelay: Duration.seconds(15)
         });
 
-        new CfnOutput(this, 'Service', { value: fargate.serviceArn });
+        new CfnOutput(this, 'Service', { value: fargateservice.serviceArn });
         new CfnOutput(this, 'TaskDefinition', { value: taskDefinition.family });
         new CfnOutput(this, 'LogGroup', { value: logGroup.logGroupName });
         new CfnOutput(this, 'ALB', { value: alb.loadBalancerDnsName });
