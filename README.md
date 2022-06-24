@@ -131,6 +131,8 @@ If the ECS cluster was re-created, you HAVE to deploy after cdk.context.json fil
 ### Step 5: ECS Service with Fargate Spot
 
 Crearte a Fargate Service with `Spot CapacityProvider`, Auto Scaling, ALB, and Log Group.
+<<<<<<< HEAD
+=======
 
 ```bash
 cd ../ecs-fargatespot-service-restapi
@@ -163,6 +165,40 @@ const fargateService = new ecs.FargateService(this, 'ecs-fargate-service', {
 [ecs-fargatespot-service-restapi/lib/ecs-fargatespot-service-restapi-stack.ts](./ecs-fargatespot-service-restapi/lib/ecs-fargatespot-service-restapi-stack.ts)
 
 ### Step 6: Scaling Test
+>>>>>>> ea60e6081b8547bab28a5bbcdd2d432ecaaba69f
+
+```bash
+cd ../ecs-fargatespot-service-restapi
+cdk deploy 
+```
+
+Use FARGATE_SPOT as 50% ratio:
+
+```typescript
+const fargateService = new ecs.FargateService(this, 'ecs-fargate-service', {
+    cluster,
+    serviceName,
+    taskDefinition,
+    enableExecuteCommand: true,
+    minHealthyPercent: 100,
+    maxHealthyPercent: 200,
+    capacityProviderStrategies: [
+        {
+            capacityProvider: 'FARGATE_SPOT',
+            weight: 1,
+        },
+        {
+            capacityProvider: 'FARGATE',
+            weight: 1,
+        }
+    ]
+});
+```
+
+<<<<<<< HEAD
+[ecs-fargatespot-service-restapi/lib/ecs-fargatespot-service-restapi-stack.ts](./ecs-fargatespot-service-restapi/lib/ecs-fargatespot-service-restapi-stack.ts)
+
+### Step 6: Scaling Test
 
 ```bash
 aws ecs update-service --cluster fargate-local --service fargate-restapi --desired-count 10
@@ -170,6 +206,8 @@ aws ecs update-service --cluster fargate-local --service fargate-restapi --desir
 aws ecs update-service --cluster fargate-local --service fargatespot-restapi --desired-count 10
 ```
 
+=======
+>>>>>>> ea60e6081b8547bab28a5bbcdd2d432ecaaba69f
 ### Step 7: Execute a command using ECS Exec
 
 Install the Session Manager plugin for the AWS CLI:
