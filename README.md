@@ -131,8 +131,6 @@ If the ECS cluster was re-created, you HAVE to deploy after cdk.context.json fil
 ### Step 5: ECS Service with Fargate Spot
 
 Crearte a Fargate Service with `Spot CapacityProvider`, Auto Scaling, ALB, and Log Group.
-<<<<<<< HEAD
-=======
 
 ```bash
 cd ../ecs-fargatespot-service-restapi
@@ -165,7 +163,6 @@ const fargateService = new ecs.FargateService(this, 'ecs-fargate-service', {
 [ecs-fargatespot-service-restapi/lib/ecs-fargatespot-service-restapi-stack.ts](./ecs-fargatespot-service-restapi/lib/ecs-fargatespot-service-restapi-stack.ts)
 
 ### Step 6: Scaling Test
->>>>>>> ea60e6081b8547bab28a5bbcdd2d432ecaaba69f
 
 ```bash
 cd ../ecs-fargatespot-service-restapi
