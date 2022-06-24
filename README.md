@@ -140,7 +140,7 @@ cdk deploy
 Use FARGATE_SPOT as 50% ratio:
 
 ```typescript
-const fargate = new ecs.FargateService(this, 'ecs-fargate-service', {
+const fargateService = new ecs.FargateService(this, 'ecs-fargate-service', {
     cluster,
     serviceName,
     taskDefinition,
