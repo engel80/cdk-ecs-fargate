@@ -107,7 +107,7 @@ SSM parameters:
 
 [ecs-fargate-service-restapi/lib/ecs-fargate-service-restapi-stack.ts](./ecs-fargate-service-restapi/lib/ecs-fargate-service-restapi-stack.ts)
 
-#### Property values for Staging and Production
+#### Configuration for Staging and Production
 
 | Resource      | Property           | Value       |
 |---------------|--------------------|-------------|
@@ -165,9 +165,9 @@ const fargateService = new ecs.FargateService(this, 'ecs-fargate-service', {
 ### Step 6: Scaling Test
 
 ```bash
-aws ecs update-service --cluster fargate-local --service restapi --desired-count 10
+aws ecs update-service --cluster fargate-local --service fargate-restapi --desired-count 10
 
-aws ecs update-service --cluster fargate-local --service restapi-spot --desired-count 10
+aws ecs update-service --cluster fargate-local --service fargatespot-restapi --desired-count 10
 ```
 
 ### Step 7: Execute a command using ECS Exec

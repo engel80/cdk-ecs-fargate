@@ -31,7 +31,8 @@ export class FargateSpotRestAPIServiceStack extends Stack {
             vpc,
             securityGroups: [ecsSecurityGroup]
         });
-        const serviceName = 'fargate-restapi'
+
+        const serviceName = 'fargatespot-restapi'
         const containerName = `${serviceName}-container`
         const applicationPort = 8080;
 
