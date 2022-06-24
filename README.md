@@ -6,8 +6,9 @@ Table Of Contents
 2. Deploy ECS Fargate cluster stack
 3. Deploy IAM Role stack
 4. Deploy ECS Fargate Service stack
-5. Scaling Test
-6. Execute a command using ECS Exec
+5. Deploy ECS FargateSpot Service stack
+6. Scaling Test
+7. Execute a command using ECS Exec
 
 ## Prerequisite
 
@@ -34,7 +35,8 @@ Use the `cdk` command-line toolkit to interact with your project:
 | ECS Fargate cluster           | 1m      |
 | IAM roles                     | 1m      |
 | ECS Fargate Service and ALB   | 3m      |
-| Total                         | 8m      |
+| ECS FargateSpot Service and ALB   | 3m      |
+| Total                         | 11m     |
 
 ## Steps
 
@@ -89,6 +91,8 @@ cdk deploy
 
 ### Step 4: ECS Service
 
+Crearte a Fargate Service, Auto Scaling, ALB, and Log Group.
+
 ```bash
 cd ../ecs-restapi-service
 cdk deploy 
@@ -101,9 +105,9 @@ SSM parameters:
 * /cdk-ecs-fargate/task-execution-role-arn
 * /cdk-ecs-fargate/default-task-role-arn
 
-[fargate-restapi-service/lib/fargate-restapi-service-stack.ts](./fargate-restapi-service/lib/fargate-restapi-service-stack.ts)
+[ecs-fargate-service-restapi/lib/ecs-fargate-service-restapi-stack.ts](./ecs-fargate-service-restapi/lib/ecs-fargate-service-restapi-stack.ts)
 
-#### Properties for production
+#### Propertie values for production
 
 | Resource      | Property           | Value       |
 |---------------|--------------------|-------------|
@@ -124,7 +128,25 @@ If the ECS cluster was re-created, you HAVE to deploy after cdk.context.json fil
 
 `find . -name "cdk.context.json" -exec rm -f {} \;`
 
-### Step 5: Scaling Test
+### Step 5: ECS Service with Fargate Spot
+
+Crearte a Fargate Service with `Spot CapacityProvider`, Auto Scaling, ALB, and Log Group.
+
+```bash
+cd ../ecs-fargatespot-service-restapi
+cdk deploy 
+```
+
+SSM parameters:
+
+* /cdk-ecs-fargate/vpc-id
+* /cdk-ecs-fargate/cluster-securitygroup-id
+* /cdk-ecs-fargate/task-execution-role-arn
+* /cdk-ecs-fargate/default-task-role-arn
+
+[ecs-fargatespot-service-restapi/lib/ecs-fargatespot-service-restapi-stack.ts](./ecs-fargatespot-service-restapi/lib/ecs-fargatespot-service-restapi-stack.ts)
+
+### Step 6: Scaling Test
 
 ```bash
 aws ecs update-service --cluster fargate-local --service restapi --desired-count 10
@@ -132,7 +154,7 @@ aws ecs update-service --cluster fargate-local --service restapi --desired-count
 aws ecs update-service --cluster fargate-local --service restapi-spot --desired-count 10
 ```
 
-### Step 6: Execute a command using ECS Exec
+### Step 7: Execute a command using ECS Exec
 
 Install the Session Manager plugin for the AWS CLI:
 
