@@ -17,7 +17,7 @@
 *internal*
 
 # MAC
-# **/.DS_Store
+**/.DS_Store
 
 # Lambda layer
 **/layers
