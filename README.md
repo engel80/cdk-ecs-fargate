@@ -192,7 +192,6 @@ const fargateService = new ecs.FargateService(this, 'ecs-fargate-service', {
 });
 ```
 
-<<<<<<< HEAD
 [ecs-fargatespot-service-restapi/lib/ecs-fargatespot-service-restapi-stack.ts](./ecs-fargatespot-service-restapi/lib/ecs-fargatespot-service-restapi-stack.ts)
 
 ### Step 6: Scaling Test
@@ -203,8 +202,6 @@ aws ecs update-service --cluster fargate-local --service fargate-restapi --desir
 aws ecs update-service --cluster fargate-local --service fargatespot-restapi --desired-count 10
 ```
 
-=======
->>>>>>> ea60e6081b8547bab28a5bbcdd2d432ecaaba69f
 ### Step 7: Execute a command using ECS Exec
 
 Install the Session Manager plugin for the AWS CLI:
