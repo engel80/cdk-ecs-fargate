@@ -5,10 +5,12 @@ Table Of Contents
 1. Deploy VPC stack
 2. Deploy ECS Fargate cluster stack
 3. Deploy IAM Role stack
-4. Deploy ECS Fargate Service stack
-5. Deploy ECS FargateSpot Service stack
-6. Scaling Test
-7. Execute a command using ECS Exec
+4. Deploy ECR and CodeCommit repository stack
+5. Deploy ECS Fargate Service stack
+6. Deploy ECS FargateSpot Service stack
+7. Scaling Test
+8. Execute a command using ECS Exec
+9. Deploy ECS Code Pipeline stack
 
 ## Prerequisite
 
