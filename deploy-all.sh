@@ -34,7 +34,7 @@ echo "Deploy ecs-fargatespot-service-restapi"
 cd ../ecs-fargatespot-service-restapi
 cdk deploy --require-approval never
 
-echo "Deploy code-build-deploy"
+echo "Deploy code-pipeline"
 
-cd ../code-build-deploy
+cd ../code-pipeline
 cdk deploy --require-approval never
