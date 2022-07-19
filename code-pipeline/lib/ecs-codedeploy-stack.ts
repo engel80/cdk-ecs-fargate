@@ -22,7 +22,7 @@ export interface EcsCodeDeployStackProps extends StackProps {
     serviceName: string;
 }
 /**
- * SSM Parameter Store reference:
+ * SSM parameters:
  * /cdk-ecs-fargate/ecr-repo-arn
  * /cdk-ecs-fargate/ecr-repo-name
  * /cdk-ecs-fargate/cluster-securitygroup-id
@@ -112,7 +112,7 @@ export class EcsCodeDeployStack extends Stack {
         // });
         const buildAction = new codepipeline_actions.CodeBuildAction({
             actionName: 'CodeBuild',
-            project: project,
+            project,
             input: sourceOutput,
             outputs: [buildOutput],
         });
