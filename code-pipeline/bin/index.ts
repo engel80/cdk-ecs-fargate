@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import * as cdk from 'aws-cdk-lib';
 import { DEFAULT_STAGE } from '../../config';
-import { EcsCodeDeployStack } from '../lib/ecs-fargate-codedeploy-stack';
+import { EcsCodeDeployStack } from '../lib/ecs-codedeploy-stack';
 
 const app = new cdk.App();
 const env = {

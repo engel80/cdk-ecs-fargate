@@ -22,7 +22,12 @@ export interface EcsCodeDeployStackProps extends StackProps {
     serviceName: string;
 }
 /**
- * Create ECS Fargate cluster and shared security group for ALB ingress
+ * SSM Parameter Store reference:
+ * /cdk-ecs-fargate/ecr-repo-arn
+ * /cdk-ecs-fargate/ecr-repo-name
+ * /cdk-ecs-fargate/cluster-securitygroup-id
+ * /cdk-ecs-fargate/cluster-name
+ * /cdk-ecs-fargate/codecommit-arn
  */
 export class EcsCodeDeployStack extends Stack {
     constructor(scope: Construct, id: string, props: EcsCodeDeployStackProps) {

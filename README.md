@@ -228,11 +228,28 @@ Load average: 0.00 0.02 0.00 4/301 75
 ### Step 9: ECS deploy with Code Pipeline
 
 ```bash
+git clone {your-repo-url}
+cd {repo-name}
+cp app/* {repo-name}/
+git add .
+git commit -m "code pipeline"
+git push 
+```
+
+```bash
 cd ../code-pipeline
 cdk deploy 
 ```
 
-[code-pipeline/lib/ecs-fargate-codedeploy-stack](./code-pipeline/lib/ecs-fargate-codedeploy-stack)
+SSM parameters:
+
+* /cdk-ecs-fargate/ecr-repo-arn
+* /cdk-ecs-fargate/ecr-repo-name
+* /cdk-ecs-fargate/cluster-securitygroup-id
+* /cdk-ecs-fargate/cluster-name
+* /cdk-ecs-fargate/codecommit-arn
+
+[code-pipeline/lib/ecs-codedeploy-stack.ts](./code-pipeline/lib/ecs-codedeploy-stack.ts)
 
 ## Clean Up
 
