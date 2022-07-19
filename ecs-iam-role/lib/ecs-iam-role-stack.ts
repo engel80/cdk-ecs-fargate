@@ -4,7 +4,7 @@ import * as ssm from 'aws-cdk-lib/aws-ssm';
 import * as iam from 'aws-cdk-lib/aws-iam';
 
 import { Construct } from 'constructs';
-import { SSM_PREFIX } from '../../ssm-prefix';
+import { SSM_PREFIX } from '../../config';
 
 /**
  * This stack is written to share IAM role among multiple-cluster

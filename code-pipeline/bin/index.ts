@@ -1,9 +1,7 @@
 #!/usr/bin/env node
 import * as cdk from 'aws-cdk-lib';
-
 import { DEFAULT_STAGE } from '../../config';
-import { CLUSTER_NAME } from '../lib/cluster-config';
-import { EcsFargateClusterStack } from '../lib/ecs-fargate-cluster-stack';
+import { EcsCodeDeployStack } from '../lib/ecs-codedeploy-stack';
 
 const app = new cdk.App();
 const env = {
@@ -12,9 +10,12 @@ const env = {
 };
 const stage = app.node.tryGetContext('stage') || DEFAULT_STAGE;
 
-new EcsFargateClusterStack(app, `ecs-fargate-cluster-${CLUSTER_NAME}-${stage}`, {
+const serviceName = 'fargate-restapi';
+
+new EcsCodeDeployStack(app, `codepipeline-${serviceName}-${stage}`, {
     env,
     stage,
-    description: `ECS Fargate cluster, cluster name: ${CLUSTER_NAME}-${stage}`,
+    serviceName,
+    description: `Code Pipeline, service name: ${serviceName}-${stage}`,
     terminationProtection: stage!==DEFAULT_STAGE
 });

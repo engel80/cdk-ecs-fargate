@@ -5,20 +5,20 @@ import * as ecs from 'aws-cdk-lib/aws-ecs';
 import { Construct } from 'constructs';
 
 import { CLUSTER_NAME } from '../lib/cluster-config';
-import { SSM_PREFIX } from '../../ssm-prefix';
+import { SSM_PREFIX } from '../../config';
+import { StackCommonProps } from '../../config';
 
 /**
  * Create ECS Fargate cluster and shared security group for ALB ingress
  */
 export class EcsFargateClusterStack extends Stack {
-    constructor(scope: Construct, id: string, props?: StackProps) {
+    constructor(scope: Construct, id: string, props: StackCommonProps) {
         super(scope, id, props);
 
-        const stage = this.node.tryGetContext('stage') || 'local';
         const vpcId = this.node.tryGetContext('vpcId') || ssm.StringParameter.valueFromLookup(this, `${SSM_PREFIX}/vpc-id`);
         const vpc = ec2.Vpc.fromLookup(this, 'vpc', { vpcId });
 
-        const clusterName = `${CLUSTER_NAME}-${stage}`;
+        const clusterName = `${CLUSTER_NAME}-${props.stage}`;
         const cluster = new ecs.Cluster(this, 'ecs-cluster', {
             vpc,
             clusterName,
@@ -31,12 +31,17 @@ export class EcsFargateClusterStack extends Stack {
             securityGroupName,
             description: `ECS Fargate shared security group for ALB ingress, cluster: ${cluster}`,
         });
-        Tags.of(ecsSecurityGroup).add('Stage', stage);
+        Tags.of(ecsSecurityGroup).add('Stage', props.stage);
         Tags.of(ecsSecurityGroup).add('Name', securityGroupName);
         
         new CfnOutput(this, 'Cluster', { value: cluster.clusterName });
         new CfnOutput(this, 'ECS Security Group ID', {value: ecsSecurityGroup.securityGroupId});
 
+        // cluster-name and cluster-arn is used for deployment pipeline
+        new ssm.StringParameter(this, 'ssm-cluster-name', { parameterName: `${SSM_PREFIX}/cluster-name`, stringValue: cluster.clusterName });
+        new ssm.StringParameter(this, 'ssm-cluster-arn', { parameterName: `${SSM_PREFIX}/cluster-arn`, stringValue: cluster.clusterArn });
+
+        // cluster-securitygroup-id is used to add inboud from ALB to Fargate service
         new ssm.StringParameter(this, 'ssm-cluster-securitygroup-id', { parameterName: `${SSM_PREFIX}/cluster-securitygroup-id`, stringValue: ecsSecurityGroup.securityGroupId });
     }
 }

@@ -5,15 +5,19 @@ Table Of Contents
 1. Deploy VPC stack
 2. Deploy ECS Fargate cluster stack
 3. Deploy IAM Role stack
-4. Deploy ECS Fargate Service stack
-5. Deploy ECS FargateSpot Service stack
-6. Scaling Test
-7. Execute a command using ECS Exec
+4. Deploy ECR and CodeCommit repository stack
+5. Deploy ECS Fargate Service stack
+6. Deploy ECS FargateSpot Service stack
+7. Scaling Test
+8. Execute a command using ECS Exec
+9. Deploy ECS Code Pipeline stack
 
 ## Prerequisite
 
 ```bash
-npm install -g aws-cdk@2.25.0
+npm install -g aws-cdk@2.32.1
+npm install -g cdk-ecr-deployment@2.5.5
+
 
 # install packages in the root folder
 npm install
@@ -89,7 +93,16 @@ cdk deploy
 
 [ecs-iam-role/lib/ecs-iam-role-stack.ts](./ecs-iam-role/lib/ecs-iam-role-stack.ts)
 
-### Step 4: ECS Service
+### Step 4: ECR and CodeCommit repository
+
+```bash
+cd ../ecr-codecommit
+cdk deploy 
+```
+
+[ecr-codecommit/lib/ecr-codecommit-stack.ts](./ecr-codecommit/lib/ecr-codecommit-stack.ts)
+
+### Step 5: ECS Service
 
 Crearte a Fargate Service, Auto Scaling, ALB, and Log Group.
 
@@ -128,7 +141,7 @@ If the ECS cluster was re-created, you HAVE to deploy after cdk.context.json fil
 
 `find . -name "cdk.context.json" -exec rm -f {} \;`
 
-### Step 5: ECS Service with Fargate Spot
+### Step 6: ECS Service with Fargate Spot
 
 Crearte a Fargate Service with `Spot CapacityProvider`, Auto Scaling, ALB, and Log Group.
 
@@ -162,7 +175,7 @@ const fargateService = new ecs.FargateService(this, 'ecs-fargate-service', {
 
 [ecs-fargatespot-service-restapi/lib/ecs-fargatespot-service-restapi-stack.ts](./ecs-fargatespot-service-restapi/lib/ecs-fargatespot-service-restapi-stack.ts)
 
-### Step 6: Scaling Test
+### Step 7: Scaling Test
 
 ```bash
 aws ecs update-service --cluster fargate-local --service fargate-restapi --desired-count 10
@@ -170,7 +183,7 @@ aws ecs update-service --cluster fargate-local --service fargate-restapi --desir
 aws ecs update-service --cluster fargate-local --service fargatespot-restapi --desired-count 10
 ```
 
-### Step 7: Execute a command using ECS Exec
+### Step 8: Execute a command using ECS Exec
 
 Install the Session Manager plugin for the AWS CLI:
 
@@ -213,6 +226,40 @@ Load average: 0.00 0.02 0.00 4/301 75
    74    66 root     R     1604   0%   1   0% top
 /app # exit
 ```
+
+### Step 9: ECS deploy with Code Pipeline
+
+Commit ./app folder files to your new Code Commit repository:
+
+```bash
+git clone {your-repo-url}
+cd {repo-name}
+cp app/* {repo-name}/
+git add .
+git commit -m "code pipeline"
+git push 
+```
+
+Create a GitHub token on `Settings >  Developer settings` menu and create a secret:
+
+https://github.com/settings/tokens
+
+```bash
+aws secretsmanager create-secret --name '/github/token' --secret-string {your-token}
+
+cd ../code-pipeline
+cdk deploy 
+```
+
+SSM parameters:
+
+* /cdk-ecs-fargate/ecr-repo-arn
+* /cdk-ecs-fargate/ecr-repo-name
+* /cdk-ecs-fargate/cluster-securitygroup-id
+* /cdk-ecs-fargate/cluster-name
+* /cdk-ecs-fargate/codecommit-arn
+
+[code-pipeline/lib/ecs-codedeploy-stack.ts](./code-pipeline/lib/ecs-codedeploy-stack.ts)
 
 ## Clean Up
 
