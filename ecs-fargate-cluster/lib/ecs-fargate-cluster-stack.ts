@@ -8,14 +8,11 @@ import { CLUSTER_NAME } from '../lib/cluster-config';
 import { SSM_PREFIX } from '../../config';
 import { StackCommonProps } from '../../config';
 
-export interface EcsFargateClusterStackProps extends StackCommonProps {
-    serviceName: string;
-}
 /**
  * Create ECS Fargate cluster and shared security group for ALB ingress
  */
 export class EcsFargateClusterStack extends Stack {
-    constructor(scope: Construct, id: string, props: EcsFargateClusterStackProps) {
+    constructor(scope: Construct, id: string, props: StackCommonProps) {
         super(scope, id, props);
 
         const vpcId = this.node.tryGetContext('vpcId') || ssm.StringParameter.valueFromLookup(this, `${SSM_PREFIX}/vpc-id`);

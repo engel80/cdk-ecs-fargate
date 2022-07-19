@@ -227,6 +227,8 @@ Load average: 0.00 0.02 0.00 4/301 75
 
 ### Step 9: ECS deploy with Code Pipeline
 
+Commit ./app folder files to your new Code Commit repository:
+
 ```bash
 git clone {your-repo-url}
 cd {repo-name}
@@ -236,7 +238,13 @@ git commit -m "code pipeline"
 git push 
 ```
 
+Create a GitHub token on `Settings >  Developer settings` menu and create a secret:
+
+https://github.com/settings/tokens
+
 ```bash
+aws secretsmanager create-secret --name '/github/token' --secret-string {your-token}
+
 cd ../code-pipeline
 cdk deploy 
 ```

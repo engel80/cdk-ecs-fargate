@@ -13,5 +13,5 @@ const stage = app.node.tryGetContext('stage') || DEFAULT_STAGE;
 new EcsIamRoleStack(app, `ecs-fargate-iam-role-${stage}`,  {
     env,
     description: 'ECS Fargate IAM Role',
-    terminationProtection: stage!=DEFAULT_STAGE
+    terminationProtection: stage!==DEFAULT_STAGE
 });

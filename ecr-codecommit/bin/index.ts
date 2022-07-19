@@ -16,5 +16,5 @@ new EcrCodeCommitStack(app, `ecr-${serviceName}`, {
     stage,
     serviceName,
     description: `ECR: ${serviceName}`,
-    terminationProtection: stage!=DEFAULT_STAGE
+    terminationProtection: stage!==DEFAULT_STAGE
 });

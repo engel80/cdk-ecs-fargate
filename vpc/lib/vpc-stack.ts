@@ -27,7 +27,7 @@ export class VpcStack extends Stack {
                 }
             ]
         });
-        
+
         const parameter = new ssm.StringParameter(this, 'SSMVPCID', { parameterName: `${SSM_PREFIX}/vpc-id`, stringValue: vpc.vpcId });
         new CfnOutput(this, 'VPC', { value: vpc.vpcId });
         new CfnOutput(this, 'SSMParameter', { value: parameter.parameterName });

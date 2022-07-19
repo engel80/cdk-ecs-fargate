@@ -17,5 +17,5 @@ new EcsCodeDeployStack(app, `codebuild-${serviceName}-${stage}`, {
     stage,
     serviceName,
     description: `codebuild, app name: ${serviceName}-${stage}`,
-    terminationProtection: stage!=DEFAULT_STAGE
+    terminationProtection: stage!==DEFAULT_STAGE
 });

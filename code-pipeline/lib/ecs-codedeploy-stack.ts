@@ -34,7 +34,7 @@ export class EcsCodeDeployStack extends Stack {
         super(scope, id, props);
 
         const ecrRepo = ecr.Repository.fromRepositoryAttributes(this, 'ecr-repo', {
-            repositoryArn: ssm.StringParameter.valueFromLookup(this, `${SSM_PREFIX}/ecr-repo-arn`),
+            repositoryArn: cdk.Lazy.string({ produce: () => ssm.StringParameter.valueFromLookup(this, `${SSM_PREFIX}/ecr-repo-arn`) }),
             repositoryName: ssm.StringParameter.valueFromLookup(this, `${SSM_PREFIX}/ecr-repo-name`)
         });
 

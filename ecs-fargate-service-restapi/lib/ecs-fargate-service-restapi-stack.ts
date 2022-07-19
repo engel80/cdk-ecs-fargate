@@ -55,9 +55,6 @@ export class FargateRestAPIServiceStack extends Stack {
             cpu: 1024,
             memoryReservationMiB: 1024
         });
-        const ecrRepo = new ecr.Repository(this, `${serviceName}`, {
-            repositoryName: `${serviceName}`
-        });
         container.addPortMappings({ containerPort: applicationPort, hostPort: applicationPort });
 
         const fargateservice = new ecs.FargateService(this, 'ecs-fargate-service', {

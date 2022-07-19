@@ -14,6 +14,7 @@ const stage = app.node.tryGetContext('stage') || DEFAULT_STAGE;
 
 new EcsFargateClusterStack(app, `ecs-fargate-cluster-${CLUSTER_NAME}-${stage}`, {
     env,
+    stage,
     description: `ECS Fargate cluster, cluster name: ${CLUSTER_NAME}-${stage}`,
-    terminationProtection: stage!=DEFAULT_STAGE
+    terminationProtection: stage!==DEFAULT_STAGE
 });
