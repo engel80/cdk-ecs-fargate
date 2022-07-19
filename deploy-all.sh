@@ -17,6 +17,11 @@ echo "Deploy ecs-iam-role"
 cd ../ecs-iam-role
 cdk deploy --require-approval never
 
+echo "Deploy ecr-codecommit"
+
+cd ../ecr-codecommit
+cdk deploy --require-approval never
+
 
 echo "Deploy ecs-fargate-service-restapi"
 
@@ -27,4 +32,9 @@ cdk deploy --require-approval never
 echo "Deploy ecs-fargatespot-service-restapi"
 
 cd ../ecs-fargatespot-service-restapi
+cdk deploy --require-approval never
+
+echo "Deploy code-build-deploy"
+
+cd ../code-build-deploy
 cdk deploy --require-approval never
