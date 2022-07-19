@@ -43,25 +43,24 @@ export class EcsCodeDeployStack extends Stack {
             vpc,
             securityGroups: [ecsSecurityGroup]
         });
-        // cdk.Lazy.string({ produce: () => ssm.StringParameter.valueFromLookup(this, `${SSM_PREFIX}/cluster-name`) }),
         const service = ecs.FargateService.fromFargateServiceAttributes(this, 'fargate-cluster', {
             cluster,
             serviceName: cdk.Lazy.string({ produce: () => ssm.StringParameter.valueFromLookup(this, `${SSM_PREFIX}/cluster-name`) })
         }) as IBaseService;
 
-        const serviceName = props?.serviceName;
+        const serviceName = props.serviceName;
         const repository = codecommit.Repository.fromRepositoryArn(this, `${serviceName}-codecommit-arn`,
             cdk.Lazy.string({ produce: () => ssm.StringParameter.valueFromLookup(this, `${SSM_PREFIX}/codecommit-arn`) }));
 
-
+        /**
+         * buildImage: codebuild.LinuxBuildImage.AMAZON_LINUX_2_4,
+         * buildImage: codebuild.LinuxBuildImage.fromDockerRegistry('public.ecr.aws/h1a5s9h8/alpine:latest')
+         */
         const project = new codebuild.Project(this, `cb-project-${serviceName}`, {
             projectName: `${serviceName}-build`,
             source: codebuild.Source.codeCommit({ repository }),
             environment: {
-                // buildImage: codebuild.LinuxBuildImage.AMAZON_LINUX_2_4,
                 buildImage: codebuild.LinuxBuildImage.STANDARD_6_0,
-                // buildImage: codebuild.LinuxBuildImage.fromDockerRegistry('public.ecr.aws/h1a5s9h8/alpine:latest'),
-                // buildImage: codebuild.LinuxBuildImage.fromDockerRegistry('alpine:3.16.1'),
                 privileged: true
             },
             buildSpec: codebuild.BuildSpec.fromSourceFilename('./buildspec.yaml'),
@@ -89,7 +88,7 @@ export class EcsCodeDeployStack extends Stack {
 
         /**
          * aws secretsmanager create-secret --name '/github/token' --secret-string {your-token}
-         * of set with oauthToken: cdk.SecretValue.plainText('<plain-text>'),
+         * or set the token with oauthToken: cdk.SecretValue.plainText('<plain-text>'),
          */
         const sourceAction = new codepipeline_actions.GitHubSourceAction({
             actionName: 'GitHub_Source',
@@ -98,8 +97,8 @@ export class EcsCodeDeployStack extends Stack {
             branch: 'master',
             oauthToken: cdk.SecretValue.secretsManager("/github/token"),
             output: sourceOutput
-          });
-      
+        });
+
         // const sourceAction = new codepipeline_actions.CodeCommitSourceAction({
         //     // account: props?.env?.account,
         //     actionName: 'CodeCommit',
@@ -142,11 +141,5 @@ export class EcsCodeDeployStack extends Stack {
                 }
             ]
         });
-
-        // new CfnOutput(props.scope, 'ProjectArnOutput', {
-        //     value: props.codebuildProject.projectArn,
-        //   });
-        // ecsPipeline.env?.account = props?.env?.account;
-        // const pipeline = new codepipeline.Pipeline(this, 'ecs-deploy-pipeline');
     }
 }
