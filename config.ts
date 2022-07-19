@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+import * as cdk from 'aws-cdk-lib';
 
 /**
  * /cdk-ecs-fargate/vpc-id
@@ -16,3 +16,7 @@ export const SSM_PREFIX = '/cdk-ecs-fargate';
 
 
 export const DEFAULT_STAGE = 'dev';
+
+export interface StackCommonProps extends cdk.StackProps {
+    stage: string;
+}

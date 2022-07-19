@@ -12,23 +12,23 @@ import * as ssm from 'aws-cdk-lib/aws-ssm';
 
 import { CLUSTER_NAME } from '../../ecs-fargate-cluster/lib/cluster-config';
 import { SSM_PREFIX } from '../../config';
+import { StackCommonProps } from '../../config';
 
 /**
  * Crearte Fargate Service, Auto Scaling, ALB, and Log Group.
  * Set the ALB logs for the production-level.
  */
 export class FargateRestAPIServiceStack extends Stack {
-    constructor(scope: Construct, id: string, props?: StackProps) {
+    constructor(scope: Construct, id: string, props: StackCommonProps) {
         super(scope, id, props);
 
-        const stage = this.node.tryGetContext('stage') || 'local';
         const vpcId = this.node.tryGetContext('vpcId') || ssm.StringParameter.valueFromLookup(this, `${SSM_PREFIX}/vpc-id`);
         const vpc = ec2.Vpc.fromLookup(this, 'vpc', { vpcId });
         const clusterSgId = ssm.StringParameter.valueFromLookup(this, `${SSM_PREFIX}/cluster-securitygroup-id`);
         const ecsSecurityGroup = ec2.SecurityGroup.fromSecurityGroupId(this, 'ecs-security-group', clusterSgId);
 
         const cluster = ecs.Cluster.fromClusterAttributes(this, 'ecs-fargate-cluster', {
-            clusterName: `${CLUSTER_NAME}-${stage}`,
+            clusterName: `${CLUSTER_NAME}-${props.stage}`,
             vpc,
             securityGroups: [ecsSecurityGroup]
         });
@@ -94,7 +94,7 @@ export class FargateRestAPIServiceStack extends Stack {
         ecsSecurityGroup.addIngressRule(albSecurityGroup, ec2.Port.tcp(applicationPort), 'Allow from ALB');
         albSecurityGroup.addIngressRule(ec2.Peer.anyIpv4(), ec2.Port.tcp(80), 'Allow any')
 
-        Tags.of(ecsSecurityGroup).add('Stage', stage);
+        Tags.of(ecsSecurityGroup).add('Stage', props.stage);
         Tags.of(ecsSecurityGroup).add('Name', albSecurityGroupName);
 
         const alb = new elbv2.ApplicationLoadBalancer(this, 'alb', {

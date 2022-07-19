@@ -12,6 +12,7 @@ const stage = app.node.tryGetContext('stage') || DEFAULT_STAGE;
 
 new FargateRestAPIServiceStack(app, `ecs-fargate-service-restapi-${stage}`, {
     env,
+    stage,
     description: 'ECS Fargate service for RESTful API with ALB',
     terminationProtection: stage!=DEFAULT_STAGE
 });

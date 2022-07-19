@@ -6,23 +6,22 @@ import { Construct } from 'constructs';
 
 import { CLUSTER_NAME } from '../lib/cluster-config';
 import { SSM_PREFIX } from '../../config';
+import { StackCommonProps } from '../../config';
 
-export interface EcsFargateClusterStackProps extends StackProps {
-    stage: string;
+export interface EcsFargateClusterStackProps extends StackCommonProps {
     serviceName: string;
 }
 /**
  * Create ECS Fargate cluster and shared security group for ALB ingress
  */
 export class EcsFargateClusterStack extends Stack {
-    constructor(scope: Construct, id: string, props?: StackProps) {
+    constructor(scope: Construct, id: string, props: EcsFargateClusterStackProps) {
         super(scope, id, props);
 
-        const stage = this.node.tryGetContext('stage') || 'local';
         const vpcId = this.node.tryGetContext('vpcId') || ssm.StringParameter.valueFromLookup(this, `${SSM_PREFIX}/vpc-id`);
         const vpc = ec2.Vpc.fromLookup(this, 'vpc', { vpcId });
 
-        const clusterName = `${CLUSTER_NAME}-${stage}`;
+        const clusterName = `${CLUSTER_NAME}-${props.stage}`;
         const cluster = new ecs.Cluster(this, 'ecs-cluster', {
             vpc,
             clusterName,
@@ -35,7 +34,7 @@ export class EcsFargateClusterStack extends Stack {
             securityGroupName,
             description: `ECS Fargate shared security group for ALB ingress, cluster: ${cluster}`,
         });
-        Tags.of(ecsSecurityGroup).add('Stage', stage);
+        Tags.of(ecsSecurityGroup).add('Stage', props.stage);
         Tags.of(ecsSecurityGroup).add('Name', securityGroupName);
         
         new CfnOutput(this, 'Cluster', { value: cluster.clusterName });

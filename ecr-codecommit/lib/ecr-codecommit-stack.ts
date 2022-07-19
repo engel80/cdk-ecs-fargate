@@ -9,9 +9,9 @@ import * as assets from 'aws-cdk-lib/aws-ecr-assets';
 import * as ecrdeploy from 'cdk-ecr-deployment';
 
 import { SSM_PREFIX } from '../../config';
+import { StackCommonProps } from '../../config';
 
-export interface EcrStackProps extends cdk.StackProps {
-    stage: string;
+export interface EcrStackProps extends StackCommonProps {
     serviceName: string;
 }
 /**
