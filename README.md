@@ -91,7 +91,16 @@ cdk deploy
 
 [ecs-iam-role/lib/ecs-iam-role-stack.ts](./ecs-iam-role/lib/ecs-iam-role-stack.ts)
 
-### Step 4: ECS Service
+### Step 4: ECR and CodeCommit repository
+
+```bash
+cd ../ecr-codecommit
+cdk deploy 
+```
+
+[ecr-codecommit/lib/ecr-codecommit-stack.ts](./ecr-codecommit/lib/ecr-codecommit-stack.ts)
+
+### Step 5: ECS Service
 
 Crearte a Fargate Service, Auto Scaling, ALB, and Log Group.
 
@@ -130,7 +139,7 @@ If the ECS cluster was re-created, you HAVE to deploy after cdk.context.json fil
 
 `find . -name "cdk.context.json" -exec rm -f {} \;`
 
-### Step 5: ECS Service with Fargate Spot
+### Step 6: ECS Service with Fargate Spot
 
 Crearte a Fargate Service with `Spot CapacityProvider`, Auto Scaling, ALB, and Log Group.
 
@@ -164,7 +173,7 @@ const fargateService = new ecs.FargateService(this, 'ecs-fargate-service', {
 
 [ecs-fargatespot-service-restapi/lib/ecs-fargatespot-service-restapi-stack.ts](./ecs-fargatespot-service-restapi/lib/ecs-fargatespot-service-restapi-stack.ts)
 
-### Step 6: Scaling Test
+### Step 7: Scaling Test
 
 ```bash
 aws ecs update-service --cluster fargate-local --service fargate-restapi --desired-count 10
@@ -172,7 +181,7 @@ aws ecs update-service --cluster fargate-local --service fargate-restapi --desir
 aws ecs update-service --cluster fargate-local --service fargatespot-restapi --desired-count 10
 ```
 
-### Step 7: Execute a command using ECS Exec
+### Step 8: Execute a command using ECS Exec
 
 Install the Session Manager plugin for the AWS CLI:
 
@@ -215,6 +224,15 @@ Load average: 0.00 0.02 0.00 4/301 75
    74    66 root     R     1604   0%   1   0% top
 /app # exit
 ```
+
+### Step 9: ECS deploy with Code Pipeline
+
+```bash
+cd ../code-pipeline
+cdk deploy 
+```
+
+[code-pipeline/lib/ecs-fargate-codedeploy-stack](./code-pipeline/lib/ecs-fargate-codedeploy-stack)
 
 ## Clean Up
 

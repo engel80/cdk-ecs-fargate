@@ -8,7 +8,7 @@ import * as ecr from 'aws-cdk-lib/aws-ecr';
 import * as assets from 'aws-cdk-lib/aws-ecr-assets';
 import * as ecrdeploy from 'cdk-ecr-deployment';
 
-import { SSM_PREFIX } from '../../ssm-prefix';
+import { SSM_PREFIX } from '../../config';
 
 export interface EcrStackProps extends cdk.StackProps {
     stage: string;
@@ -17,7 +17,7 @@ export interface EcrStackProps extends cdk.StackProps {
 /**
  * Build 'app/Dockerfile' and push to ECR for X86 and ARM
  */
-export class EcrStack extends Stack {
+export class EcrCodeCommitStack extends Stack {
     constructor(scope: Construct, id: string, props: EcrStackProps) {
         super(scope, id, props);
 
@@ -61,11 +61,8 @@ export class EcrStack extends Stack {
         new ssm.StringParameter(this, 'ssm-codecommit-arn', { parameterName: `${SSM_PREFIX}/codecommit-arn`, stringValue: codecommitRepo.repositoryArn });
 
         new ssm.StringParameter(this, 'ssm-ecr-repo-name', { parameterName: `${SSM_PREFIX}/ecr-repo-name`, stringValue: ecrRepo.repositoryName });
-        // new ssm.StringParameter(this, 'ssm-ecr-repo-url', { parameterName: `${SSM_PREFIX}/ecr-repo-url`, stringValue: ecrRepo.repositoryUri });
         new ssm.StringParameter(this, 'ssm-ecr-repo-arn', { parameterName: `${SSM_PREFIX}/ecr-repo-arn`, stringValue: ecrRepo.repositoryArn });
-        
         new ssm.StringParameter(this, 'ssm-ecr-armrepo-name', { parameterName: `${SSM_PREFIX}/ecr-armrepo-name`, stringValue: ecrArmRepo.repositoryUri });
-        // new ssm.StringParameter(this, 'ssm-ecr-armrepo-url', { parameterName: `${SSM_PREFIX}/ecr-armrepo-url`, stringValue: ecrArmRepo.repositoryUri });
         new ssm.StringParameter(this, 'ssm-ecr-armrepo-arn', { parameterName: `${SSM_PREFIX}/ecr-armrepo-arn`, stringValue: ecrArmRepo.repositoryArn });
 
         new CfnOutput(this, 'CodeCommitRepoUrl', { value: codecommitRepo.repositoryCloneUrlHttp });

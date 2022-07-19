@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import * as cdk from 'aws-cdk-lib';
-import { EcrStack } from '../lib/ecr-stack';
+import { EcrCodeCommitStack } from '../lib/ecr-codecommit-stack';
 import { DEFAULT_STAGE } from '../../config';
 
 const app = new cdk.App();
@@ -11,7 +11,7 @@ const env = {
 const stage = app.node.tryGetContext('stage') || DEFAULT_STAGE;
 const serviceName = `fargate-restapi-${stage}`
 
-new EcrStack(app, `ecr-${serviceName}`, {
+new EcrCodeCommitStack(app, `ecr-${serviceName}`, {
     env,
     stage,
     serviceName,
