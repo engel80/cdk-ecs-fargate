@@ -1,7 +1,13 @@
-echo "destroy fargate-restapi-service"
-cd fargate-restapi-service
+
+echo "destroy ecs-fargatespot-service-restapi"
+
+cd ecs-fargatespot-service-restapi
 cdk destroy
 
+echo "destroy ecs-fargate-service-restapi"
+
+cd ../ecs-fargate-service-restapi
+cdk destroy
 
 echo "destroy ecs-fargate-cluster"
 cd ../ecs-fargate-cluster

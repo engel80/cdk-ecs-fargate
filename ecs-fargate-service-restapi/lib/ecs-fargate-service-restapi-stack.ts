@@ -3,6 +3,7 @@ import * as cdk from 'aws-cdk-lib';
 import { Stack, StackProps, CfnOutput, Duration, Tags } from 'aws-cdk-lib';
 import * as path from 'path';
 import * as ecs from 'aws-cdk-lib/aws-ecs';
+import * as ecr from 'aws-cdk-lib/aws-ecr';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as elbv2 from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 import * as logs from 'aws-cdk-lib/aws-logs';
@@ -53,6 +54,9 @@ export class FargateRestAPIServiceStack extends Stack {
             // image: ecs.ContainerImage.fromRegistry("<account-id>.dkr.ecr.<region>.amazonaws.com/sample-rest-api:latest"),
             cpu: 1024,
             memoryReservationMiB: 1024
+        });
+        const ecrRepo = new ecr.Repository(this, `${serviceName}`, {
+            repositoryName: `${serviceName}`
         });
         container.addPortMappings({ containerPort: applicationPort, hostPort: applicationPort });
 

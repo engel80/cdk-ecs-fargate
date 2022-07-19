@@ -37,6 +37,11 @@ export class EcsFargateClusterStack extends Stack {
         new CfnOutput(this, 'Cluster', { value: cluster.clusterName });
         new CfnOutput(this, 'ECS Security Group ID', {value: ecsSecurityGroup.securityGroupId});
 
+        // cluster-name and cluster-arn will be used for deployment pipeline
+        new ssm.StringParameter(this, 'ssm-cluster-name', { parameterName: `${SSM_PREFIX}/cluster-name`, stringValue: cluster.clusterName });
+        new ssm.StringParameter(this, 'ssm-cluster-arn', { parameterName: `${SSM_PREFIX}/cluster-arn`, stringValue: cluster.clusterArn });
+
+        // cluster-securitygroup-id will be used to add inboud from ALB to Fargate service
         new ssm.StringParameter(this, 'ssm-cluster-securitygroup-id', { parameterName: `${SSM_PREFIX}/cluster-securitygroup-id`, stringValue: ecsSecurityGroup.securityGroupId });
     }
 }

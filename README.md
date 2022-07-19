@@ -13,7 +13,9 @@ Table Of Contents
 ## Prerequisite
 
 ```bash
-npm install -g aws-cdk@2.25.0
+npm install -g aws-cdk@2.32.1
+npm install -g cdk-ecr-deployment@2.5.5
+
 
 # install packages in the root folder
 npm install
