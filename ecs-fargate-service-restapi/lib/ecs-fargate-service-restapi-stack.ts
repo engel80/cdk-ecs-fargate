@@ -11,7 +11,7 @@ import * as iam from 'aws-cdk-lib/aws-iam';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
 
 import { CLUSTER_NAME } from '../../ecs-fargate-cluster/lib/cluster-config';
-import { SSM_PREFIX } from '../../ssm-prefix';
+import { SSM_PREFIX } from '../../config';
 
 /**
  * Crearte Fargate Service, Auto Scaling, ALB, and Log Group.

@@ -5,8 +5,12 @@ import * as ecs from 'aws-cdk-lib/aws-ecs';
 import { Construct } from 'constructs';
 
 import { CLUSTER_NAME } from '../lib/cluster-config';
-import { SSM_PREFIX } from '../../ssm-prefix';
+import { SSM_PREFIX } from '../../config';
 
+export interface EcsFargateClusterStackProps extends StackProps {
+    stage: string;
+    serviceName: string;
+}
 /**
  * Create ECS Fargate cluster and shared security group for ALB ingress
  */

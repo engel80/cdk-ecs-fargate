@@ -4,7 +4,7 @@ import { Construct } from 'constructs';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
 
-import { SSM_PREFIX } from '../../ssm-prefix';
+import { SSM_PREFIX } from '../../config';
 
 export class VpcStack extends Stack {
     constructor(scope: Construct, id: string, props?: StackProps) {

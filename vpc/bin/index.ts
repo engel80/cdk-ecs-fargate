@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import * as cdk from 'aws-cdk-lib';
 import { VpcStack } from '../lib/vpc-stack';
+import { DEFAULT_STAGE } from '../../config';
 
 const app = new cdk.App();
 const env = {
@@ -12,5 +13,5 @@ const stage = app.node.tryGetContext('stage') || 'local';
 new VpcStack(app, `ecs-vpc-${stage}`,  {
     env,
     description: 'VPC for ECS Fargate',
-    terminationProtection: stage!='local'
+    terminationProtection: stage!=DEFAULT_STAGE
 });

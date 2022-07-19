@@ -1,4 +1,4 @@
-import { Stack, StackProps, CfnOutput, Tags, RemovalPolicy } from 'aws-cdk-lib';
+import { Stack, StackProps, CfnOutput, Tags } from 'aws-cdk-lib';
 import * as cdk from 'aws-cdk-lib';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
 
@@ -14,20 +14,20 @@ import * as codepipeline_actions from 'aws-cdk-lib/aws-codepipeline-actions';
 import { Construct } from 'constructs';
 
 import { CLUSTER_NAME } from '../../ecs-fargate-cluster/lib/cluster-config';
-import { SSM_PREFIX } from '../../ssm-prefix';
+import { SSM_PREFIX } from '../../config';
 import { IBaseService } from 'aws-cdk-lib/aws-ecs';
 
-export interface EcsCodeDeployStackProps extends cdk.StackProps {
+export interface EcsCodeDeployStackProps extends StackProps {
+    stage: string;
     serviceName: string;
 }
 /**
  * Create ECS Fargate cluster and shared security group for ALB ingress
  */
 export class EcsCodeDeployStack extends Stack {
-    constructor(scope: Construct, id: string, props?: EcsCodeDeployStackProps) {
+    constructor(scope: Construct, id: string, props: EcsCodeDeployStackProps) {
         super(scope, id, props);
 
-        const stage = this.node.tryGetContext('stage') || 'local';
         const ecrRepo = ecr.Repository.fromRepositoryAttributes(this, 'ecr-repo', {
             repositoryArn: ssm.StringParameter.valueFromLookup(this, `${SSM_PREFIX}/ecr-repo-arn`),
             repositoryName: ssm.StringParameter.valueFromLookup(this, `${SSM_PREFIX}/ecr-repo-name`)
@@ -39,7 +39,7 @@ export class EcsCodeDeployStack extends Stack {
         const ecsSecurityGroup = ec2.SecurityGroup.fromSecurityGroupId(this, 'ecs-security-group', clusterSgId);
 
         const cluster = ecs.Cluster.fromClusterAttributes(this, 'ecs-fargate-cluster', {
-            clusterName: `${CLUSTER_NAME}-${stage}`,
+            clusterName: `${CLUSTER_NAME}-${props.stage}`,
             vpc,
             securityGroups: [ecsSecurityGroup]
         });
