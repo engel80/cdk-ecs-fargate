@@ -87,17 +87,30 @@ export class EcsCodeDeployStack extends Stack {
         const sourceOutput = new codepipeline.Artifact();
         const buildOutput = new codepipeline.Artifact();
 
-        const sourceAction = new codepipeline_actions.CodeCommitSourceAction({
-            // account: props?.env?.account,
-            actionName: 'CodeCommit',
-            repository: repository,
-            output: sourceOutput,
-        });
+        /**
+         * aws secretsmanager create-secret --name '/github/token' --secret-string {your-token}
+         * of set with oauthToken: cdk.SecretValue.plainText('<plain-text>'),
+         */
+        const sourceAction = new codepipeline_actions.GitHubSourceAction({
+            actionName: 'GitHub_Source',
+            owner: 'engel80',
+            repo: 'fargate-restapi-local',
+            branch: 'master',
+            oauthToken: cdk.SecretValue.secretsManager("/github/token"),
+            output: sourceOutput
+          });
+      
+        // const sourceAction = new codepipeline_actions.CodeCommitSourceAction({
+        //     // account: props?.env?.account,
+        //     actionName: 'CodeCommit',
+        //     repository: repository,
+        //     output: sourceOutput,
+        // });
         const buildAction = new codepipeline_actions.CodeBuildAction({
             actionName: 'CodeBuild',
             project: project,
             input: sourceOutput,
-            outputs: [buildOutput], // optional
+            outputs: [buildOutput],
         });
         const manualApprovalAction = new codepipeline_actions.ManualApprovalAction({
             actionName: 'Approve',
@@ -109,6 +122,7 @@ export class EcsCodeDeployStack extends Stack {
         });
 
         const ecsPipeline = new codepipeline.Pipeline(this, 'ecs-deploy-pipeline', {
+            pipelineName: `ecs-deploy-${service.serviceName}`,
             stages: [
                 {
                     stageName: 'Source',
@@ -134,24 +148,5 @@ export class EcsCodeDeployStack extends Stack {
         //   });
         // ecsPipeline.env?.account = props?.env?.account;
         // const pipeline = new codepipeline.Pipeline(this, 'ecs-deploy-pipeline');
-
-        // const deployStage = pipeline.addStage({
-        //   stageName: 'Deploy',
-        //   actions: [
-        //     new codepipeline_actions.EcsDeployAction({
-        //       actionName: 'DeployAction',
-        //       service: service,
-        //       // if your file is called imagedefinitions.json,
-        //       // use the `input` property,
-        //       // and leave out the `imageFile` property
-        //     //   input: buildOutput,
-        //       // if your file name is _not_ imagedefinitions.json,
-        //       // use the `imageFile` property,
-        //       // and leave out the `input` property
-        //       imageFile: buildOutput.atPath('imagedefinitions.json'),
-        //       deploymentTimeout: cdk.Duration.minutes(60)
-        //     })
-        //   ]
-        // });
     }
 }
