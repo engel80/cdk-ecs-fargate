@@ -12,10 +12,10 @@ const stage = app.node.tryGetContext('stage') || DEFAULT_STAGE;
 
 const serviceName = 'fargate-restapi';
 
-new EcsCodeDeployStack(app, `codebuild-${serviceName}-${stage}`, {
+new EcsCodeDeployStack(app, `codepipeline-${serviceName}-${stage}`, {
     env,
     stage,
     serviceName,
-    description: `codebuild, app name: ${serviceName}-${stage}`,
+    description: `Code Pipeline, service name: ${serviceName}-${stage}`,
     terminationProtection: stage!==DEFAULT_STAGE
 });
