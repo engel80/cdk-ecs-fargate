@@ -1,12 +1,11 @@
-import { Stack, StackProps, CfnOutput, Tags } from 'aws-cdk-lib';
+import { Stack, CfnOutput, Tags } from 'aws-cdk-lib';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
 import * as ecs from 'aws-cdk-lib/aws-ecs';
 import { Construct } from 'constructs';
 
 import { CLUSTER_NAME } from '../lib/cluster-config';
-import { SSM_PREFIX } from '../../config';
-import { StackCommonProps } from '../../config';
+import { StackCommonProps, SSM_PREFIX } from '../../config';
 
 /**
  * Create ECS Fargate cluster and shared security group for ALB ingress

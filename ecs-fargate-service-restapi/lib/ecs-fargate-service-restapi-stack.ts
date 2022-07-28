@@ -1,9 +1,8 @@
 import { Construct } from 'constructs';
 import * as cdk from 'aws-cdk-lib';
-import { Stack, StackProps, CfnOutput, Duration, Tags } from 'aws-cdk-lib';
+import { Stack, CfnOutput, Duration, Tags } from 'aws-cdk-lib';
 import * as path from 'path';
 import * as ecs from 'aws-cdk-lib/aws-ecs';
-import * as ecr from 'aws-cdk-lib/aws-ecr';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as elbv2 from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 import * as logs from 'aws-cdk-lib/aws-logs';
@@ -11,8 +10,7 @@ import * as iam from 'aws-cdk-lib/aws-iam';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
 
 import { CLUSTER_NAME } from '../../ecs-fargate-cluster/lib/cluster-config';
-import { SSM_PREFIX } from '../../config';
-import { StackCommonProps } from '../../config';
+import { StackCommonProps, SSM_PREFIX } from '../../config';
 
 /**
  * Crearte Fargate Service, Auto Scaling, ALB, and Log Group.
